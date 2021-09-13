@@ -1,0 +1,15 @@
+{
+  "name": "onelink",
+  "version": "0.1.0",
+  "description": "Linktree clone.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/index",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+  },
+  "author": "Mohd Ahmed Abdus",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  }
+}
