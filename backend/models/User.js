@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const { BCRYPT_WORK_FACTOR, DUMMY_HASH } = require('../config/bcryptConfig');
 
 const userSchema = new mongoose.Schema(
   {
@@ -34,6 +36,18 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, BCRYPT_WORK_FACTOR);
+  }
+  next();
+});
+
+userSchema.statics.comparePassword = function (plainTextPwd, hashedPwd) {
+  // using dummy hash to mitigate timing attack
+  return bcrypt.compare(plainTextPwd, hashedPwd || DUMMY_HASH);
+};
 
 const User = mongoose.model('User', userSchema);
 
