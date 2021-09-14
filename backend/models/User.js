@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { BCRYPT_WORK_FACTOR, DUMMY_HASH } = require('../config/bcryptConfig');
+const { linkSchema } = require('./Link');
 
 const userSchema = new mongoose.Schema(
   {
@@ -33,6 +34,7 @@ const userSchema = new mongoose.Schema(
       maxlength: 1024,
     },
     verifiedAt: Date,
+    links: [linkSchema],
   },
   { timestamps: true }
 );
