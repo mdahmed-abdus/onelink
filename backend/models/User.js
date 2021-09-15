@@ -19,6 +19,14 @@ const userSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 128,
     },
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      minlength: 8,
+      maxlength: 20,
+    },
     email: {
       type: String,
       required: true,
