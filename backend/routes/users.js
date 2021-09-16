@@ -1,6 +1,6 @@
 const express = require('express');
 const { User } = require('../models/User');
-const { BadRequest } = require('../errors/customErrors');
+const { BadRequest, NotFound } = require('../errors/customErrors');
 const authService = require('../services/authService');
 
 const router = express.Router();
@@ -48,6 +48,21 @@ router.post('/login', async (req, res) => {
 router.post('/logout', (req, res) => {
   authService.logout(req, res);
   res.json({ success: true, message: 'User logged out' });
+});
+
+router.get('/:username', async (req, res) => {
+  const { username } = req.params;
+  const user = await User.findOne({ username }).select('-password');
+
+  if (!user) {
+    throw NotFound(`User with username "${username}" not found`);
+  }
+
+  res.json({
+    success: true,
+    message: `User has ${user.links.length} link(s)`,
+    links: user.links,
+  });
 });
 
 module.exports = router;
