@@ -1,6 +1,7 @@
 const express = require('express');
 const { User } = require('../models/User');
 const { BadRequest } = require('../errors/customErrors');
+const authService = require('../services/authService');
 
 const router = express.Router();
 
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
     throw new BadRequest('Invalid username or email or password');
   }
 
-  // TODO: complete login
+  authService.login(req, res, user);
 
   res.json({ success: true, message: 'User logged in' });
 });
