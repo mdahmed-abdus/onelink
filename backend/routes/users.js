@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  // TODO: complete logout
+  authService.logout(req, res);
   res.json({ success: true, message: 'User logged out' });
 });
 

@@ -14,4 +14,8 @@ const login = (req, res, user) => {
   });
 };
 
-module.exports = { login };
+const logout = (req, res) => {
+  res.cookie('jwt', '', { httpOnly: true, maxAge: 1, sameSite: true });
+};
+
+module.exports = { login, logout };
