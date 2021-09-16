@@ -18,4 +18,16 @@ const logout = (req, res) => {
   res.cookie('jwt', '', { httpOnly: true, maxAge: 1, sameSite: true });
 };
 
+const isLoggedIn = req => {
+  const token = req.cookies.jwt;
+
+  try {
+    const decoded = jwt.verify(token, JWT_PRIVATE_KEY);
+    req.user = decoded;
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
 module.exports = { login, logout };
