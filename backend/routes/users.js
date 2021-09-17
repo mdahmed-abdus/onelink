@@ -2,10 +2,17 @@ const express = require('express');
 const { User } = require('../models/User');
 const { BadRequest, NotFound } = require('../errors/customErrors');
 const authService = require('../services/authService');
+const { registerSchema, loginSchema } = require('../validation/userValidator');
+const validate = require('../validation/validate');
 
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
+  const errMessage = validate(registerSchema, req.body);
+  if (errMessage) {
+    throw new BadRequest(errMessage);
+  }
+
   const { firstName, lastName, username, email, password } = req.body;
 
   const emailTaken = await User.findOne({ email });
@@ -25,6 +32,11 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  const errMessage = validate(loginSchema, req.body);
+  if (errMessage) {
+    throw new BadRequest(errMessage);
+  }
+
   const { username, email, password } = req.body;
 
   let user;
