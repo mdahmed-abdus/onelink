@@ -2,7 +2,7 @@ const { isLoggedIn } = require('../services/authService');
 const { Unauthorized } = require('../errors/customErrors');
 
 const guest = (req, res, next) => {
-  if (isLoggedIn) {
+  if (isLoggedIn(req)) {
     next(new Unauthorized());
   }
   next();
