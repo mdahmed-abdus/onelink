@@ -80,7 +80,10 @@ router.get(
   '/:username',
   catchAsyncErr(async (req, res) => {
     const { username } = req.params;
-    const user = await User.findOne({ username }).select('-password');
+    const user = await User.findOne(
+      { username },
+      '-_id firstName lastName links.title links.url'
+    );
 
     if (!user) {
       throw NotFound(`User with username "${username}" not found`);
@@ -89,7 +92,7 @@ router.get(
     res.json({
       success: true,
       message: `User has ${user.links.length} link(s)`,
-      links: user.links,
+      user,
     });
   })
 );
