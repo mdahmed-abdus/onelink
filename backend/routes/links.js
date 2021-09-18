@@ -28,11 +28,12 @@ router.patch(
   '/:id',
   [auth, validateId],
   catchAsyncErr(async (req, res) => {
+    const { id } = req.params;
     const user = await User.findById(req.user.userId);
-    const link = user.links.find((l, i) => l._id.toString() === req.params.id);
+    const link = user.links.find((l, i) => l._id.toString() === id);
 
     if (!link) {
-      throw new NotFound(`Note with id "${req.params.id}" was not found`);
+      throw new NotFound(`Note with id "${id}" was not found`);
     }
 
     const { title = link.title, url = link.url } = req.body;
@@ -49,11 +50,12 @@ router.delete(
   '/:id',
   [auth, validateId],
   catchAsyncErr(async (req, res) => {
+    const { id } = req.params;
     const user = await User.findById(req.user.userId);
-    const link = user.links.find((l, i) => l._id.toString() === req.params.id);
+    const link = user.links.find((l, i) => l._id.toString() === id);
 
     if (!link) {
-      throw new NotFound(`Note with id "${req.params.id}" was not found`);
+      throw new NotFound(`Note with id "${id}" was not found`);
     }
 
     await link.remove();
