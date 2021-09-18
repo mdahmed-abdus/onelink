@@ -50,9 +50,9 @@ router.post(
 
     let user;
     if (email) {
-      user = await User.findOne({ username });
-    } else {
       user = await User.findOne({ email });
+    } else {
+      user = await User.findOne({ username });
     }
 
     const validPassword = await User.comparePassword(password, user?.password);
