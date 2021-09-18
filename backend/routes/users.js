@@ -1,6 +1,7 @@
 const express = require('express');
 const { User } = require('../models/User');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
+const { guest, auth } = require('../middleware/authMiddleware');
 const { BadRequest, NotFound } = require('../errors/customErrors');
 const authService = require('../services/authService');
 const { registerSchema, loginSchema } = require('../validation/userValidator');
@@ -10,6 +11,7 @@ const router = express.Router();
 
 router.post(
   '/register',
+  guest,
   catchAsyncErr(async (req, res) => {
     const errMessage = validate(registerSchema, req.body);
     if (errMessage) {
@@ -37,6 +39,7 @@ router.post(
 
 router.post(
   '/login',
+  guest,
   catchAsyncErr(async (req, res) => {
     const errMessage = validate(loginSchema, req.body);
     if (errMessage) {
@@ -66,9 +69,10 @@ router.post(
 
 router.post(
   '/logout',
+  auth,
   catchAsyncErr((req, res) => {
     authService.logout(req, res);
-    res.json({ success: true, message: 'User logged out' });
+    res.json({ success: true, message: 'User logged out', user: req.user });
   })
 );
 
