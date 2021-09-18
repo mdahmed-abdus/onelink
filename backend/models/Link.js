@@ -20,4 +20,6 @@ const linkSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = { linkSchema };
+const Link = mongoose.model('Link', linkSchema);
+
+module.exports = { linkSchema, Link };
