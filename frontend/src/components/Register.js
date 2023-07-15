@@ -3,8 +3,8 @@ import TextInput from './TextInput';
 
 function Register() {
   return (
-    <div className="gridMainContainer pb-[100px]">
-      <div className="gridContainer mt-16">
+    <div className="gridMainContainer pb-[100px] mt-24">
+      <div className="gridContainer">
         <div className="text-center">
           <h1 className="text-4xl">Create an account</h1>
           <p>
