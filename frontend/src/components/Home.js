@@ -26,7 +26,7 @@ function Home() {
                 placeHolder="Password"
                 externalStyle="mt-5 w-full"
               />
-              <Link href="#" text="Forgot password?" />
+              <Link href="/forgot-password" text="Forgot password?" />
               <Button text="Login" externalStyle="mt-5 w-full" />
               <Link href="/register" text="Create an account" />
             </form>
