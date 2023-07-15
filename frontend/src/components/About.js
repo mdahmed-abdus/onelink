@@ -28,7 +28,14 @@ function About() {
             Feel free to navigate through my portfolio and reach out if you have
             any questions.
           </p>
-          <div className="mt-8 flex justify-evenly sm:px-56">
+          <a
+            href={links.repository}
+            target="_blank"
+            className="block mt-2 text-primary hover:underline"
+          >
+            Source code for Onelink
+          </a>
+          <div className="mt-8 sm:px-56 flex justify-evenly">
             {socials.map((icon, index) => (
               <a
                 key={'about_socials_' + index}
@@ -38,7 +45,7 @@ function About() {
                 <img
                   src={icon.icon}
                   alt={icon.name}
-                  className="w-[25px] object-contain"
+                  className="w-[25px] h-[25px] object-contain"
                 />
               </a>
             ))}
