@@ -1,5 +1,6 @@
 import { mail, linkedin, github, website, twitter } from '../assets';
 import { links, mailTo } from '../constants';
+import Link from './Link';
 
 function About() {
   const socials = [
@@ -28,26 +29,26 @@ function About() {
             Feel free to navigate through my portfolio and reach out if you have
             any questions.
           </p>
-          <a
+          <Link
             href={links.repository}
             target="_blank"
-            className="block mt-2 text-primary hover:underline"
-          >
-            Source code for Onelink
-          </a>
+            text="Source code for Onelink"
+            externalStyle="block mt-2"
+          />
           <div className="mt-8 sm:px-56 flex justify-evenly">
             {socials.map((icon, index) => (
-              <a
+              <Link
                 key={'about_socials_' + index}
                 href={icon.url}
                 target={icon.target}
-              >
-                <img
-                  src={icon.icon}
-                  alt={icon.name}
-                  className="w-[25px] h-[25px] object-contain"
-                />
-              </a>
+                text={
+                  <img
+                    src={icon.icon}
+                    alt={icon.name}
+                    className="w-[25px] h-[25px] object-contain"
+                  />
+                }
+              />
             ))}
           </div>
         </div>

@@ -5,9 +5,9 @@ function ComingSoon() {
   const history = useHistory();
 
   return (
-    <div className="gridMainContainer">
+    <div className="gridMainContainer mt-24">
       <div className="gridContainer text-center">
-        <h1 className="mt-16 text-4xl">Coming Soon...</h1>
+        <h1 className="text-4xl">Coming Soon...</h1>
         <Button
           type="button"
           text={'Go back'}

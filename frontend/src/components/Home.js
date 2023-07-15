@@ -1,4 +1,5 @@
 import Button from './Button';
+import Link from './Link';
 import TextInput from './TextInput';
 
 function Home() {
@@ -25,13 +26,9 @@ function Home() {
                 placeHolder="Password"
                 externalStyle="mt-5 w-full"
               />
-              <a href="#" className="text-primary hover:underline">
-                Forgot password?
-              </a>
+              <Link href="#" text="Forgot password?" />
               <Button text="Login" externalStyle="mt-5 w-full" />
-              <a href="/register" className="text-primary hover:underline">
-                Create an account
-              </a>
+              <Link href="/register" text="Create an account" />
             </form>
           </div>
         </div>

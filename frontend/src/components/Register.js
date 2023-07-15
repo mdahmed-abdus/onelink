@@ -1,4 +1,5 @@
 import Button from './Button';
+import Link from './Link';
 import TextInput from './TextInput';
 
 function Register() {
@@ -8,10 +9,7 @@ function Register() {
         <div className="text-center">
           <h1 className="text-4xl">Create an account</h1>
           <p>
-            Already have an account?{' '}
-            <a href="/" className="text-primary hover:underline">
-              Login
-            </a>
+            Already have an account? <Link href="/" text="Login" />
           </p>
         </div>
         <form className="mt-10">
