@@ -4,10 +4,10 @@ import { links, mailTo } from '../constants';
 function About() {
   const socials = [
     { icon: mail, name: 'mail', url: mailTo },
-    { icon: linkedin, name: 'linkedin', url: links.linkedin },
-    { icon: github, name: 'github', url: links.github },
+    { icon: linkedin, name: 'linkedin', url: links.linkedin, target: '_blank' },
+    { icon: github, name: 'github', url: links.github, target: '_blank' },
     { icon: website, name: 'website', url: links.website },
-    { icon: twitter, name: 'twitter', url: links.twitter },
+    { icon: twitter, name: 'twitter', url: links.twitter, target: '_blank' },
   ];
 
   return (
@@ -33,7 +33,7 @@ function About() {
               <a
                 key={'about_socials_' + index}
                 href={icon.url}
-                target={icon.name !== 'mail' && '_blank'}
+                target={icon.target}
               >
                 <img
                   src={icon.icon}
