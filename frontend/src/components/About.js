@@ -11,8 +11,8 @@ function About() {
   ];
 
   return (
-    <div className="gridMainContainer pb-[100px]">
-      <div className="gridContainer text-center mt-16">
+    <div className="gridMainContainer pb-[100px] mt-24">
+      <div className="gridContainer text-center">
         <h1 className="text-4xl">About</h1>
         <p className="mt-8">
           Onelink simplifies the process of sharing multiple online profiles and

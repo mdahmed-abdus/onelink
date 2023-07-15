@@ -10,7 +10,7 @@ function Navbar() {
   ];
 
   return (
-    <nav>
+    <nav className="fixed top-0 w-full z-20 bg-white">
       <div className="gridMainContainer">
         <div className="gridContainer my-5 flex justify-between">
           <a href="/" className="text-xl hover:text-primary">

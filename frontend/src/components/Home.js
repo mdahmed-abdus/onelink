@@ -3,9 +3,9 @@ import TextInput from './TextInput';
 
 function Home() {
   return (
-    <div className="gridMainContainer">
+    <div className="gridMainContainer mt-32 sm:mt-64">
       <div className="gridContainer">
-        <div className="mt-24 sm:mt-60 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="text-center lg:text-start">
             <h1 className="text-6xl sm:text-7xl font-medium">Onelink</h1>
             <p className="mt-2 text-xl sm:text-2xl font-light">
