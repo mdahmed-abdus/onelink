@@ -6,7 +6,7 @@ function Navbar() {
 
   const links = [
     { text: 'Continue as Demo User', url: '#' },
-    { text: 'Help', url: '#' },
+    { text: 'About', url: '/about' },
   ];
 
   return (
