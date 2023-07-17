@@ -31,7 +31,7 @@ function AddNewLink({ setShowAddNewLink }) {
   return (
     <BlurredBgCenteredItems
       items={
-        <form className="flex flex-col">
+        <form className="flex flex-col p-6">
           <h2 className="text-2xl">Enter link details</h2>
           <TextInput
             name="title"
@@ -56,7 +56,7 @@ function AddNewLink({ setShowAddNewLink }) {
               type="button"
               text="Cancel"
               onClick={() => setShowAddNewLink(false)}
-              externalStyle="ml-8"
+              externalStyle="mt-8 sm:ml-8"
             />
           </div>
         </form>
@@ -103,9 +103,13 @@ function Profile() {
         {showAddNewLink && <AddNewLink setShowAddNewLink={setShowAddNewLink} />}
         {isLoggedIn ? (
           <>
-            <div className="flex justify-between">
+            <div className="sm:flex justify-between">
               <h1 className="text-4xl">Hi {user.firstName}!</h1>
-              <Button text="Add new link" onClick={onClickAddNewLink} />
+              <Button
+                text="Add new link"
+                onClick={onClickAddNewLink}
+                externalStyle="mt-4 sm:mt-0"
+              />
             </div>
           </>
         ) : (
@@ -114,7 +118,7 @@ function Profile() {
             <span className="mt-2">@{user.username}</span>
           </>
         )}
-        <div className="mt-6 mx-auto w-full sm:min-w-[400px] sm:w-fit flex flex-col">
+        <div className="mt-8 mx-auto w-full sm:min-w-[400px] sm:w-fit flex flex-col">
           {user.links.map((link, index) => (
             <Button
               key={'profile_links_' + index}
