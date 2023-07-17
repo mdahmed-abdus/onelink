@@ -1,23 +1,28 @@
 import Button from './Button';
 import { useState } from 'react';
 import Link from './Link';
+import BlurredBgCenteredItems from './BlurredBgCenteredItems';
 
 function ConfirmRedirect({ url, setShowRedirect }) {
   return (
-    <div className="z-10 py-6 w-screen h-screen absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%] flex flex-col items-center justify-center rounded-lg backdrop-blur-xl bg-primary bg-opacity-20">
-      <h2 className="text-2xl">Click on link if trusted</h2>
-      <Link
-        href={url}
-        text={url}
-        target="_blank"
-        onClick={() => setShowRedirect(false)}
-      />
-      <Button
-        text="Cancel"
-        externalStyle="mt-16"
-        onClick={() => setShowRedirect(false)}
-      />
-    </div>
+    <BlurredBgCenteredItems
+      items={
+        <>
+          <h2 className="text-2xl">Click on link if trusted</h2>
+          <Link
+            href={url}
+            text={url}
+            target="_blank"
+            onClick={() => setShowRedirect(false)}
+          />
+          <Button
+            text="Cancel"
+            externalStyle="mt-16"
+            onClick={() => setShowRedirect(false)}
+          />
+        </>
+      }
+    />
   );
 }
 
