@@ -2,6 +2,7 @@ import Button from './Button';
 import { useState } from 'react';
 import Link from './Link';
 import BlurredBgCenteredItems from './BlurredBgCenteredItems';
+import TextInput from './TextInput';
 
 function ConfirmRedirect({ url, setShowRedirect }) {
   return (
@@ -26,9 +27,50 @@ function ConfirmRedirect({ url, setShowRedirect }) {
   );
 }
 
+function AddNewLink({ setShowAddNewLink }) {
+  return (
+    <BlurredBgCenteredItems
+      items={
+        <form className="flex flex-col">
+          <h2 className="text-2xl">Enter link details</h2>
+          <TextInput
+            name="title"
+            required={true}
+            placeHolder="Enter title"
+            externalStyle="mt-8 shadow-sm"
+          />
+          <TextInput
+            name="url"
+            required={true}
+            placeHolder="Enter URL link"
+            externalStyle="mt-4 shadow-sm"
+          />
+          <div>
+            <Button
+              type="Submit"
+              text="Submit"
+              onClick={() => setShowAddNewLink(false)}
+              externalStyle="mt-16"
+            />
+            <Button
+              type="button"
+              text="Cancel"
+              onClick={() => setShowAddNewLink(false)}
+              externalStyle="ml-8"
+            />
+          </div>
+        </form>
+      }
+    />
+  );
+}
+
 function Profile() {
+  const isLoggedIn = true;
+
   const [showRedirect, setShowRedirect] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState('');
+  const [showAddNewLink, setShowAddNewLink] = useState(false);
 
   const user = {
     firstName: 'John',
@@ -40,9 +82,13 @@ function Profile() {
     ],
   };
 
-  const onClick = url => {
+  const onClickLink = url => {
     setRedirectUrl(url);
     setShowRedirect(true);
+  };
+
+  const onClickAddNewLink = () => {
+    setShowAddNewLink(true);
   };
 
   return (
@@ -54,8 +100,20 @@ function Profile() {
             setShowRedirect={setShowRedirect}
           />
         )}
-        <h1 className="text-4xl">{user.firstName + ' ' + user.lastName}</h1>
-        <span className="mt-2">@{user.username}</span>
+        {showAddNewLink && <AddNewLink setShowAddNewLink={setShowAddNewLink} />}
+        {isLoggedIn ? (
+          <>
+            <div className="flex justify-between">
+              <h1 className="text-4xl">Hi {user.firstName}!</h1>
+              <Button text="Add new link" onClick={onClickAddNewLink} />
+            </div>
+          </>
+        ) : (
+          <>
+            <h1 className="text-4xl">{user.firstName + ' ' + user.lastName}</h1>
+            <span className="mt-2">@{user.username}</span>
+          </>
+        )}
         <div className="mt-6 mx-auto w-full sm:min-w-[400px] sm:w-fit flex flex-col">
           {user.links.map((link, index) => (
             <Button
@@ -63,7 +121,7 @@ function Profile() {
               type="button"
               externalStyle="mt-4"
               text={link.title}
-              onClick={() => onClick(link.url)}
+              onClick={() => onClickLink(link.url)}
             />
           ))}
         </div>
