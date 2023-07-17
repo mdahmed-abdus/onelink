@@ -30,11 +30,8 @@ function ConfirmRedirect({ url, setShowRedirect }) {
 }
 
 function LinkForm({ link, setLink, formFor, closeAllFormView }) {
-  let heading = 'Enter link details';
-
-  if (formFor === 'update') {
-    heading = 'Update link details';
-  }
+  const heading =
+    formFor === 'update' ? 'Update link details' : 'Enter new link details';
 
   return (
     <BlurredBgCenteredItems
@@ -65,6 +62,14 @@ function LinkForm({ link, setLink, formFor, closeAllFormView }) {
               onClick={closeAllFormView}
               externalStyle="mt-8 sm:mt-0 sm:ml-8"
             />
+            {formFor === 'update' && (
+              <Button
+                type="button"
+                text="Delete"
+                onClick={closeAllFormView}
+                externalStyle="mt-8 sm:mt-0 sm:ml-8"
+              />
+            )}
           </div>
         </form>
       }
