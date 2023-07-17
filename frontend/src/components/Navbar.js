@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { menu, close } from '../assets';
-import Link from './Link';
+
+function NavLink({ href, text, className }) {
+  return (
+    <a href={href} className={`text-black hover:text-primary ${className}`}>
+      {text}
+    </a>
+  );
+}
 
 function Navbar() {
   const [toggle, setToggle] = useState(false);
@@ -14,21 +21,14 @@ function Navbar() {
     <nav className="fixed top-0 w-full z-20 bg-white">
       <div className="gridMainContainer">
         <div className="gridContainer my-5 flex justify-between">
-          <Link
-            href="/"
-            text="Onelink"
-            externalStyle="text-xl text-black hover:text-primary hover:no-underline"
-          />
+          <NavLink href="/" text="Onelink" className="text-xl" />
           <ul className="hidden sm:flex font-light">
             {links.map((link, index) => (
               <li key={'navbar_link_' + index}>
-                <Link
+                <NavLink
                   href={link.url}
                   text={link.text}
-                  externalStyle={
-                    'text-black hover:text-primary hover:no-underline ' +
-                    (index === links.length - 1 ? 'ml-5' : '')
-                  }
+                  className={index === links.length - 1 ? 'ml-5' : ''}
                 />
               </li>
             ))}
@@ -42,7 +42,7 @@ function Navbar() {
             />
             <div
               className={`absolute p-6 top-14 right-6 rounded-lg bg-secondary ${
-                !toggle ? 'hidden' : 'flex'
+                toggle ? 'flex' : 'hidden'
               }`}
             >
               <ul className="list-none flex justify-end items-start flex-col gap-4">
@@ -51,11 +51,7 @@ function Navbar() {
                     key={'navbar_link_mob_' + index}
                     onClick={() => setToggle(!toggle)}
                   >
-                    <Link
-                      href={link.url}
-                      text={link.text}
-                      externalStyle="text-black hover:text-primary hover:no-underline"
-                    />
+                    <NavLink href={link.url} text={link.text} />
                   </li>
                 ))}
               </ul>
