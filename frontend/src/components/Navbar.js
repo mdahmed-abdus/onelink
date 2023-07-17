@@ -9,13 +9,17 @@ function NavLink({ href, text, className }) {
   );
 }
 
-function Navbar() {
+function Navbar({ isLoggedIn, login, logout }) {
   const [toggle, setToggle] = useState(false);
 
   const links = [
     { text: 'Continue as Demo User', url: '#' },
     { text: 'About', url: '/about' },
   ];
+
+  isLoggedIn
+    ? links.push({ text: 'Log out', url: '/logout' })
+    : links.push({ text: 'Log In', url: '/' });
 
   return (
     <nav className="fixed top-0 w-full z-20 bg-white">
@@ -28,7 +32,7 @@ function Navbar() {
                 <NavLink
                   href={link.url}
                   text={link.text}
-                  className={index === links.length - 1 ? 'ml-5' : ''}
+                  className={index === 0 ? '' : 'ml-5'}
                 />
               </li>
             ))}

@@ -1,10 +1,11 @@
 import Button from './Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from './Link';
 import BlurredBgCenteredItems from './BlurredBgCenteredItems';
 import TextInput from './TextInput';
 import IconButton from './IconButton';
 import { edit } from '../assets';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 function ConfirmRedirect({ url, setShowRedirect }) {
   return (
@@ -77,8 +78,12 @@ function LinkForm({ link, setLink, formFor, closeAllFormView }) {
   );
 }
 
-function Profile() {
-  const isLoggedIn = true;
+function Profile({ isLoggedIn }) {
+  const { userId } = useParams();
+
+  useEffect(() => {
+    console.log({ userId });
+  }, [userId]);
 
   const [showRedirect, setShowRedirect] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState('');
@@ -88,6 +93,7 @@ function Profile() {
   const [link, setLink] = useState({ title: '', url: '' });
 
   const user = {
+    _id: '123',
     firstName: 'John',
     lastName: 'Doe',
     username: 'john-doe',
