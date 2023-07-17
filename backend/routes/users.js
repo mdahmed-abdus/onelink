@@ -61,18 +61,9 @@ router.post(
       throw new BadRequest('Invalid username or email or password');
     }
 
-    authService.login(req, res, user);
+    const token = authService.login(req, res, user);
 
-    res.json({ success: true, message: 'User logged in' });
-  })
-);
-
-router.post(
-  '/logout',
-  auth,
-  catchAsyncErr((req, res) => {
-    authService.logout(req, res);
-    res.json({ success: true, message: 'User logged out', user: req.user });
+    res.json({ success: true, message: 'User logged in', token: token });
   })
 );
 
