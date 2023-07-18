@@ -73,11 +73,11 @@ router.get(
     const { username } = req.params;
     const user = await User.findOne(
       { username },
-      '-_id firstName lastName links._id links.title links.url'
+      '-_id username firstName lastName links._id links.title links.url'
     );
 
     if (!user) {
-      throw NotFound(`User with username "${username}" not found`);
+      throw new NotFound(`User with username "${username}" not found`);
     }
 
     res.json({
