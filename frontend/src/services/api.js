@@ -2,6 +2,10 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:5001';
 
+function getAuthTokenFromLocalStorage() {
+  return localStorage.getItem('token');
+}
+
 export async function register(registerData) {
   const response = await axios.post(
     API_BASE_URL + '/users/register',
@@ -23,9 +27,9 @@ export async function login(loginData) {
   }
 }
 
-export async function getUserData(userId, token) {
-  const response = await axios.get(API_BASE_URL + 'users/:' + userId, {
-    headers: { Authorization: 'Bearer ' + token },
+export async function getUserData(username) {
+  const response = await axios.get(API_BASE_URL + '/users/' + username, {
+    headers: { Authorization: 'Bearer ' + getAuthTokenFromLocalStorage() },
   });
   if (response.status === 200) {
     return response.data;

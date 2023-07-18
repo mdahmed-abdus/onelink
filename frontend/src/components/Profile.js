@@ -6,6 +6,7 @@ import TextInput from './TextInput';
 import IconButton from './IconButton';
 import { edit } from '../assets';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import api from '../services/api';
 
 function ConfirmRedirect({ url, setShowRedirect }) {
   return (
@@ -79,29 +80,35 @@ function LinkForm({ link, setLink, formFor, closeAllFormView }) {
 }
 
 function Profile({ isLoggedIn }) {
-  const { userId } = useParams();
+  const { username } = useParams();
+
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({
+    _id: '',
+    firstName: '',
+    lastName: '',
+    username: '',
+    links: [{ _id: '', title: '', url: '' }],
+  });
 
   useEffect(() => {
-    console.log({ userId });
-  }, [userId]);
+    api
+      .getUserData(username)
+      .then(({ user }) => {
+        setUser(user);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [username]);
 
   const [showRedirect, setShowRedirect] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState('');
 
   const [showAddNewLinkForm, setShowAddNewLinkForm] = useState(false);
   const [showEditLinkForm, setShowEditLinkForm] = useState(false);
-  const [link, setLink] = useState({ title: '', url: '' });
-
-  const user = {
-    _id: '123',
-    firstName: 'John',
-    lastName: 'Doe',
-    username: 'john-doe',
-    links: [
-      { title: 'Linkedin', url: 'https://www.linkedin.com/' },
-      { title: 'Twitter', url: 'https://twitter.com/' },
-    ],
-  };
+  const [link, setLink] = useState({ _id: '', title: '', url: '' });
 
   const onClickLink = url => {
     setRedirectUrl(url);
@@ -122,6 +129,7 @@ function Profile({ isLoggedIn }) {
   return (
     <div className="gridMainContainer pb-[100px] mt-24">
       <div className="gridContainer text-center">
+        {loading && <BlurredBgCenteredItems items={<p>Loading...</p>} />}
         {showRedirect && (
           <ConfirmRedirect
             url={redirectUrl}

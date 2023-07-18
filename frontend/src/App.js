@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import Logout from './components/Logout';
 import api from './services/api';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import jwt_decode from 'jwt-decode';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,7 +26,9 @@ function App() {
     api
       .login({ [key]: emailUsername, password })
       .then(({ token }) => {
-        localStorage.setItem('user', JSON.stringify(token));
+        localStorage.setItem('token', JSON.stringify(token));
+        const { username } = jwt_decode(token);
+        localStorage.setItem('username', username);
         setIsLoggedIn(true);
       })
       .catch(error => {
@@ -35,7 +38,8 @@ function App() {
   };
 
   const logout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
     setIsLoggedIn(false);
   };
 
@@ -50,7 +54,11 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} login={login} logout={logout} />
       <Switch>
         <Route exact path="/">
-          {isLoggedIn ? <Redirect to="/profile" /> : <Home login={login} />}
+          {isLoggedIn ? (
+            <Redirect to={`/${localStorage.getItem('username')}`} />
+          ) : (
+            <Home login={login} />
+          )}
         </Route>
         <Route exact path="/logout">
           <Logout isLoggedIn={isLoggedIn} logout={logout} />
@@ -59,7 +67,7 @@ function App() {
         <Route exact path="/about" component={About} />
         <Route exact path="/coming-soon" component={ComingSoon} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
-        <Route exact path="/:userId">
+        <Route exact path="/:username">
           <Profile isLoggedIn={isLoggedIn} />
         </Route>
       </Switch>
