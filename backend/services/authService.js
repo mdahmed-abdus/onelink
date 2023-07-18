@@ -13,7 +13,7 @@ const isLoggedIn = req => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    throw new Unauthorized();
+    return false;
   }
 
   const token = authorization.split(' ')[1];
@@ -23,7 +23,7 @@ const isLoggedIn = req => {
 
     const user = User.findById(decoded._id);
     if (!user) {
-      throw new Unauthorized();
+      return false;
     }
 
     req.user = decoded;
@@ -33,4 +33,4 @@ const isLoggedIn = req => {
   }
 };
 
-module.exports = { login, logout, isLoggedIn };
+module.exports = { login, isLoggedIn };
