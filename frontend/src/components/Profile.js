@@ -169,28 +169,38 @@ function Profile({ isLoggedIn }) {
             <span className="mt-2">@{user.username}</span>
           </>
         )}
-        <div className="mt-8 mx-auto w-full sm:min-w-[400px] sm:w-fit flex flex-col">
-          {user.links.map((link, index) => (
-            <div
-              key={'profile_links_' + index}
-              className="mt-4 flex items-center"
-            >
-              <Button
-                type="button"
-                externalStyle="w-full border border-primary"
-                text={link.title}
-                onClick={() => onClickLink(link.url)}
-              />
-              {isLoggedIn && (
-                <IconButton
-                  icon={{ icon: edit, name: 'edit icon' }}
-                  className="ml-2 bg-white"
-                  onClick={() => onClickEditLink(link)}
+        {user.links.length > 0 ? (
+          <div className="mt-8 mx-auto w-full sm:min-w-[400px] sm:w-fit flex flex-col">
+            {user.links.map((link, index) => (
+              <div
+                key={'profile_links_' + index}
+                className="mt-4 flex items-center"
+              >
+                <Button
+                  type="button"
+                  externalStyle="w-full border border-primary"
+                  text={link.title}
+                  onClick={() => onClickLink(link.url)}
                 />
-              )}
-            </div>
-          ))}
-        </div>
+                {isLoggedIn && (
+                  <IconButton
+                    icon={{ icon: edit, name: 'edit icon' }}
+                    className="ml-2 bg-white"
+                    onClick={() => onClickEditLink(link)}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-8">
+            {isLoggedIn ? (
+              <p>Added links will appear here.</p>
+            ) : (
+              <p>{user.firstName} has not added any links.</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

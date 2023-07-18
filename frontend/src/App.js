@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     console.log('App.js useEffect');
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('token'));
     user ? setIsLoggedIn(true) : setIsLoggedIn(false);
   }, []);
 
