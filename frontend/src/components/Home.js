@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import api from '../services/api';
 import Button from './Button';
 import Link from './Link';
 import TextInput from './TextInput';
 
 function Home({ login }) {
-  const [emailUsername, setEmailUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // set these empty in prod
+  const [emailUsername, setEmailUsername] = useState('jane');
+  const [password, setPassword] = useState('Aa@12345678');
 
   const handleLoginSubmit = e => {
     e.preventDefault();
