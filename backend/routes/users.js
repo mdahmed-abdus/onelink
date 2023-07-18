@@ -1,7 +1,7 @@
 const express = require('express');
 const { User } = require('../models/User');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
-const { guest, auth } = require('../middleware/authMiddleware');
+const { guest } = require('../middleware/authMiddleware');
 const { BadRequest, NotFound } = require('../errors/customErrors');
 const authService = require('../services/authService');
 const { registerSchema, loginSchema } = require('../validation/userValidator');
@@ -73,7 +73,7 @@ router.get(
     const { username } = req.params;
     const user = await User.findOne(
       { username },
-      '-_id firstName lastName links.title links.url'
+      '-_id firstName lastName links._id links.title links.url'
     );
 
     if (!user) {
