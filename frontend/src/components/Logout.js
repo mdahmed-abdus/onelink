@@ -1,9 +1,7 @@
 import Link from './Link';
 
 function Logout({ isLoggedIn, logout }) {
-  setTimeout(() => {
-    logout();
-  }, 2000);
+  logout();
 
   return (
     <div className="gridMainContainer mt-24">
