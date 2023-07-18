@@ -1,8 +1,33 @@
+import { useState } from 'react';
+import api from '../services/api';
 import Button from './Button';
 import Link from './Link';
 import TextInput from './TextInput';
 
-function Home() {
+function Home({ setIsLoggedIn }) {
+  const [emailUsername, setEmailUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLoginSubmit = e => {
+    e.preventDefault();
+
+    const EMAIL_REGEX = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+    const emailUsernameIsEmail = EMAIL_REGEX.test(emailUsername);
+    const key = emailUsernameIsEmail ? 'email' : 'username';
+
+    api
+      .login({ [key]: emailUsername, password })
+      .then(({ token }) => {
+        localStorage.setItem('user', JSON.stringify(token));
+        setIsLoggedIn(true);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsLoggedIn(false);
+      });
+  };
+
   return (
     <div className="gridMainContainer mt-32 sm:mt-64">
       <div className="gridContainer">
@@ -14,13 +39,20 @@ function Home() {
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">
-            <form className="flex flex-col items-center sm:w-3/4">
+            <form
+              className="flex flex-col items-center sm:w-3/4"
+              onSubmit={handleLoginSubmit}
+            >
               <TextInput
+                value={emailUsername}
+                onChange={e => setEmailUsername(e.target.value)}
                 placeHolder="Email / Username"
                 required={true}
                 externalStyle="w-full"
               />
               <TextInput
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 type="password"
                 required={true}
                 placeHolder="Password"

@@ -8,7 +8,7 @@ import About from './components/About';
 import ComingSoon from './components/ComingSoon';
 import Profile from './components/Profile';
 import ForgotPassword from './components/ForgotPassword';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logout from './components/Logout';
 
 function App() {
@@ -17,11 +17,19 @@ function App() {
   const login = () => setIsLoggedIn(true);
   const logout = () => setIsLoggedIn(false);
 
+  useEffect(() => {
+    console.log('App.js useEffect');
+    const user = JSON.parse(localStorage.getItem('user'));
+    user ? setIsLoggedIn(true) : setIsLoggedIn(false);
+  }, []);
+
   return (
     <BrowserRouter>
       <Navbar isLoggedIn={isLoggedIn} login={login} logout={logout} />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/">
+          <Home setIsLoggedIn={setIsLoggedIn} />
+        </Route>
         <Route exact path="/logout">
           <Logout isLoggedIn={isLoggedIn} logout={logout} />
         </Route>
