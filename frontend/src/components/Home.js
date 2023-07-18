@@ -4,28 +4,13 @@ import Button from './Button';
 import Link from './Link';
 import TextInput from './TextInput';
 
-function Home({ setIsLoggedIn }) {
+function Home({ login }) {
   const [emailUsername, setEmailUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLoginSubmit = e => {
     e.preventDefault();
-
-    const EMAIL_REGEX = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
-    const emailUsernameIsEmail = EMAIL_REGEX.test(emailUsername);
-    const key = emailUsernameIsEmail ? 'email' : 'username';
-
-    api
-      .login({ [key]: emailUsername, password })
-      .then(({ token }) => {
-        localStorage.setItem('user', JSON.stringify(token));
-        setIsLoggedIn(true);
-      })
-      .catch(error => {
-        console.log(error);
-        setIsLoggedIn(false);
-      });
+    login(emailUsername, password);
   };
 
   return (

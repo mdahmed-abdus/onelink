@@ -10,15 +10,34 @@ import Profile from './components/Profile';
 import ForgotPassword from './components/ForgotPassword';
 import { useEffect, useState } from 'react';
 import Logout from './components/Logout';
+import api from './services/api';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  const login = () => setIsLoggedIn(true);
+  const login = (emailUsername, password) => {
+    const EMAIL_REGEX = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+    const emailUsernameIsEmail = EMAIL_REGEX.test(emailUsername);
+    const key = emailUsernameIsEmail ? 'email' : 'username';
+
+    api
+      .login({ [key]: emailUsername, password })
+      .then(({ token }) => {
+        localStorage.setItem('user', JSON.stringify(token));
+        setIsLoggedIn(true);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsLoggedIn(false);
+      });
+  };
+
   const logout = () => {
     localStorage.removeItem('user');
     setIsLoggedIn(false);
   };
+
   useEffect(() => {
     console.log('App.js useEffect');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -30,7 +49,7 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} login={login} logout={logout} />
       <Switch>
         <Route exact path="/">
-          <Home setIsLoggedIn={setIsLoggedIn} />
+          <Home login={login} />
         </Route>
         <Route exact path="/logout">
           <Logout isLoggedIn={isLoggedIn} logout={logout} />
