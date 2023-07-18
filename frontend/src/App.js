@@ -15,8 +15,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const login = () => setIsLoggedIn(true);
-  const logout = () => setIsLoggedIn(false);
-
+  const logout = () => {
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+  };
   useEffect(() => {
     console.log('App.js useEffect');
     const user = JSON.parse(localStorage.getItem('user'));
