@@ -5,7 +5,10 @@ const { auth } = require('../middleware/authMiddleware');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
 const validateId = require('../middleware/validateId');
 const { BadRequest, NotFound } = require('../errors/customErrors');
-const { linkSchema } = require('../validation/linkValidator');
+const {
+  newLinkSchema,
+  updateLinkSchema,
+} = require('../validation/linkValidator');
 const validate = require('../validation/validate');
 
 const router = express.Router();
@@ -16,7 +19,7 @@ router.post(
   '/new',
   auth,
   catchAsyncErr(async (req, res) => {
-    const errMessage = validate(linkSchema, req.body);
+    const errMessage = validate(newLinkSchema, req.body);
     if (errMessage) {
       throw new BadRequest(errMessage);
     }
@@ -37,7 +40,7 @@ router.patch(
   '/:id',
   auth,
   catchAsyncErr(async (req, res) => {
-    const errMessage = validate(linkSchema, req.body);
+    const errMessage = validate(updateLinkSchema, req.body);
     if (errMessage) {
       throw new BadRequest(errMessage);
     }

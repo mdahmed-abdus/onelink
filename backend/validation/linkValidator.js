@@ -11,6 +11,10 @@ const url = Joi.string()
   )
   .message('Invalid url');
 
-const linkSchema = Joi.object({ title, url }).options({ presence: 'required' });
+const newLinkSchema = Joi.object({ title, url }).options({
+  presence: 'required',
+});
 
-module.exports = { linkSchema };
+const updateLinkSchema = Joi.object({ title, url }).or('title', 'url');
+
+module.exports = { newLinkSchema, updateLinkSchema };
