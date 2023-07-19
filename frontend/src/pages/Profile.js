@@ -16,6 +16,8 @@ function LinkForm({
   closeAllFormView,
   loadUserDetails,
 }) {
+  const [error, setError] = useState(null);
+
   const heading =
     formFor === 'update' ? 'Update link details' : 'Enter new link details';
 
@@ -30,11 +32,13 @@ function LinkForm({
 
     apiFunc()
       .then(data => {
+        setError(null);
         closeAllFormView();
         loadUserDetails();
       })
       .catch(error => {
         console.log(error);
+        setError(error);
       });
   };
 
@@ -42,11 +46,13 @@ function LinkForm({
     api
       .deleteLink(link._id)
       .then(data => {
+        setError(null);
         closeAllFormView();
         loadUserDetails();
       })
       .catch(error => {
         console.log(error);
+        setError(error);
       });
   };
 
@@ -88,6 +94,7 @@ function LinkForm({
               />
             )}
           </div>
+          {error && <p className="mt-4 text-danger">{error.message}</p>}
         </form>
       }
     />

@@ -80,6 +80,9 @@ function Register() {
           <div className="mt-5 flex justify-center">
             <Button text="Register" />
           </div>
+          {error && (
+            <p className="mt-4 text-danger text-center">{error.message}</p>
+          )}
         </form>
       </div>
     </div>
