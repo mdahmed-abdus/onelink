@@ -19,7 +19,7 @@ const apiHandler = async apiFunc => {
   } catch (error) {
     // the request was made and the server responded with a status code that falls out of the range of 2xx
     if (error.response) {
-      return error.response.data;
+      throw new Error(error.response.data.message);
     }
     // something happened in setting up the request that triggered an error
     console.log('Error', error.message);
