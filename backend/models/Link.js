@@ -14,7 +14,7 @@ const linkSchema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 3,
-      maxlength: 2000,
+      maxlength: 2048,
     },
   },
   { timestamps: true }

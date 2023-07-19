@@ -4,14 +4,23 @@ const { Link } = require('../models/Link');
 const { auth } = require('../middleware/authMiddleware');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
 const validateId = require('../middleware/validateId');
-const { NotFound } = require('../errors/customErrors');
+const { BadRequest, NotFound } = require('../errors/customErrors');
+const { linkSchema } = require('../validation/linkValidator');
+const validate = require('../validation/validate');
 
 const router = express.Router();
+
+router.param('id', validateId);
 
 router.post(
   '/new',
   auth,
   catchAsyncErr(async (req, res) => {
+    const errMessage = validate(linkSchema, req.body);
+    if (errMessage) {
+      throw new BadRequest(errMessage);
+    }
+
     const { title, url } = req.body;
 
     const user = await User.findById(req.user.userId);
@@ -26,8 +35,13 @@ router.post(
 
 router.patch(
   '/:id',
-  [auth, validateId],
+  auth,
   catchAsyncErr(async (req, res) => {
+    const errMessage = validate(linkSchema, req.body);
+    if (errMessage) {
+      throw new BadRequest(errMessage);
+    }
+
     const { id } = req.params;
     const user = await User.findById(req.user.userId);
     const link = user.links.find((l, i) => l._id.toString() === id);
@@ -48,7 +62,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  [auth, validateId],
+  auth,
   catchAsyncErr(async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(req.user.userId);
