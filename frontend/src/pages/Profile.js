@@ -207,6 +207,7 @@ function Profile() {
               <h1 className="text-4xl">Hi {user.firstName}!</h1>
               <Button
                 text="Add new link"
+                buttonType="underline"
                 onClick={() => setShowAddNewLinkForm(true)}
                 externalStyle="mt-4 sm:mt-0"
               />
