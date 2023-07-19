@@ -1,4 +1,4 @@
-import Link from './Link';
+import Link from '../components/Link';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useEffect } from 'react';
@@ -8,7 +8,9 @@ function Logout() {
   const { logout } = useLogout();
 
   useEffect(() => {
-    logout();
+    setTimeout(() => {
+      logout();
+    }, 1000);
   }, []);
 
   return (

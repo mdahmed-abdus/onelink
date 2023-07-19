@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Button from './Button';
-import Link from './Link';
-import TextInput from './TextInput';
+import Button from '../components/Button';
+import Link from '../components/Link';
+import TextInput from '../components/TextInput';
 import { useLogin } from '../hooks/useLogin';
 
 function Home() {

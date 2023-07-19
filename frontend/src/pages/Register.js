@@ -1,6 +1,6 @@
-import Button from './Button';
-import Link from './Link';
-import TextInput from './TextInput';
+import Button from '../components/Button';
+import Link from '../components/Link';
+import TextInput from '../components/TextInput';
 import { useRegister } from '../hooks/useRegister';
 import { useState } from 'react';
 

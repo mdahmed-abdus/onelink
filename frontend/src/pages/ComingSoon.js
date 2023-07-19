@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
-import Button from './Button';
+import Button from '../components/Button';
 
 function ComingSoon() {
   const history = useHistory();

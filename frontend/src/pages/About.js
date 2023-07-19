@@ -1,6 +1,6 @@
 import { mail, linkedin, github, website, twitter } from '../assets';
 import { links, mailTo } from '../constants';
-import Link from './Link';
+import Link from '../components/Link';
 
 function About() {
   const socials = [

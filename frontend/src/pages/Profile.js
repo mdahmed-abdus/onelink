@@ -1,9 +1,9 @@
-import Button from './Button';
+import Button from '../components/Button';
 import { useState, useEffect } from 'react';
-import Link from './Link';
-import BlurredBgCenteredItems from './BlurredBgCenteredItems';
-import TextInput from './TextInput';
-import IconButton from './IconButton';
+import Link from '../components/Link';
+import BlurredBgCenteredItems from '../components/BlurredBgCenteredItems';
+import TextInput from '../components/TextInput';
+import IconButton from '../components/IconButton';
 import { edit } from '../assets';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import api from '../services/api';
