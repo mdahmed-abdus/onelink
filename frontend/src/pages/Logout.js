@@ -10,7 +10,7 @@ function Logout() {
   useEffect(() => {
     setTimeout(() => {
       logout();
-    }, 1000);
+    }, 300);
   }, []);
 
   return (
