@@ -9,37 +9,48 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import api from '../services/api';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-function ConfirmRedirect({ url, setShowRedirect }) {
-  return (
-    <BlurredBgCenteredItems
-      items={
-        <>
-          <h2 className="text-2xl">Click on link if trusted</h2>
-          <Link
-            href={url}
-            text={url}
-            target="_blank"
-            onClick={() => setShowRedirect(false)}
-          />
-          <Button
-            text="Cancel"
-            externalStyle="mt-16"
-            onClick={() => setShowRedirect(false)}
-          />
-        </>
-      }
-    />
-  );
-}
-
-function LinkForm({ link, setLink, formFor, closeAllFormView }) {
+function LinkForm({
+  link,
+  setLink,
+  formFor,
+  closeAllFormView,
+  loadUserDetails,
+}) {
   const heading =
     formFor === 'update' ? 'Update link details' : 'Enter new link details';
 
+  const handleFormSubmit = e => {
+    e.preventDefault();
+
+    if (formFor === 'new') {
+      api
+        .addLink({ title: link.title, url: link.url })
+        .then(data => {
+          closeAllFormView();
+          loadUserDetails();
+        })
+        .catch(error => {
+          console.log(error);
+          alert('Error: ' + error.message);
+        });
+    } else {
+      api
+        .updateLink({ title: link.title, url: link.url }, link._id)
+        .then(data => {
+          closeAllFormView();
+          loadUserDetails();
+        })
+        .catch(error => {
+          console.log(error);
+          alert('Error: ' + error.message);
+        });
+    }
+  };
+
   return (
     <BlurredBgCenteredItems
       items={
-        <form className="flex flex-col p-6">
+        <form className="flex flex-col p-6" onSubmit={handleFormSubmit}>
           <h2 className="text-2xl">{heading}</h2>
           <TextInput
             name="title"
@@ -58,7 +69,7 @@ function LinkForm({ link, setLink, formFor, closeAllFormView }) {
             externalStyle="mt-4 shadow-sm"
           />
           <div className="flex flex-col sm:flex-row mt-16">
-            <Button type="submit" text="Submit" onClick={closeAllFormView} />
+            <Button text="Submit" />
             <Button
               type="button"
               text="Cancel"
@@ -95,7 +106,7 @@ function Profile() {
     links: [{ _id: '', title: '', url: '' }],
   });
 
-  useEffect(() => {
+  const loadUserDetails = () => {
     api
       .getUserData(username)
       .then(({ user }) => {
@@ -105,7 +116,11 @@ function Profile() {
       .catch(error => {
         console.log(error);
       });
-  }, [username]);
+  };
+
+  useEffect(() => {
+    loadUserDetails();
+  }, []);
 
   const [showRedirect, setShowRedirect] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState('');
@@ -135,9 +150,23 @@ function Profile() {
       <div className="gridContainer text-center">
         {loading && <BlurredBgCenteredItems items={<p>Loading...</p>} />}
         {showRedirect && (
-          <ConfirmRedirect
-            url={redirectUrl}
-            setShowRedirect={setShowRedirect}
+          <BlurredBgCenteredItems
+            items={
+              <>
+                <h2 className="text-2xl">Click on link if trusted</h2>
+                <Link
+                  href={`//${redirectUrl}`}
+                  text={redirectUrl}
+                  target="_blank"
+                  onClick={() => setShowRedirect(false)}
+                />
+                <Button
+                  text="Cancel"
+                  externalStyle="mt-16"
+                  onClick={() => setShowRedirect(false)}
+                />
+              </>
+            }
           />
         )}
         {showAddNewLinkForm && (
@@ -146,6 +175,7 @@ function Profile() {
             setLink={setLink}
             formFor="new"
             closeAllFormView={closeAllFormView}
+            loadUserDetails={loadUserDetails}
           />
         )}
         {showEditLinkForm && (
@@ -154,6 +184,7 @@ function Profile() {
             setLink={setLink}
             formFor="update"
             closeAllFormView={closeAllFormView}
+            loadUserDetails={loadUserDetails}
           />
         )}
         {isLoggedIn ? (
