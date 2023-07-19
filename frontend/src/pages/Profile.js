@@ -22,29 +22,32 @@ function LinkForm({
   const handleFormSubmit = e => {
     e.preventDefault();
 
-    if (formFor === 'new') {
-      api
-        .addLink({ title: link.title, url: link.url })
-        .then(data => {
-          closeAllFormView();
-          loadUserDetails();
-        })
-        .catch(error => {
-          console.log(error);
-          alert('Error: ' + error.message);
-        });
-    } else {
-      api
-        .updateLink({ title: link.title, url: link.url }, link._id)
-        .then(data => {
-          closeAllFormView();
-          loadUserDetails();
-        })
-        .catch(error => {
-          console.log(error);
-          alert('Error: ' + error.message);
-        });
-    }
+    const linkData = { title: link.title, url: link.url };
+    const apiFunc =
+      formFor === 'new'
+        ? () => api.addLink(linkData)
+        : () => api.updateLink(linkData, link._id);
+
+    apiFunc()
+      .then(data => {
+        closeAllFormView();
+        loadUserDetails();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const onClickDelete = () => {
+    api
+      .deleteLink(link._id)
+      .then(data => {
+        closeAllFormView();
+        loadUserDetails();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -80,7 +83,7 @@ function LinkForm({
               <Button
                 type="button"
                 text="Delete"
-                onClick={closeAllFormView}
+                onClick={onClickDelete}
                 externalStyle="mt-8 sm:mt-0 sm:ml-8"
               />
             )}
