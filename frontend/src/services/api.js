@@ -1,43 +1,54 @@
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:5001';
+const USER_API_ENDPOINT = API_BASE_URL + '/users';
+const LINK_API_ENDPOINT = API_BASE_URL + '/links';
 
-function getAuthTokenFromLocalStorage() {
-  return localStorage.getItem('token');
-}
+const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem('user'));
 
-export async function register(registerData) {
-  const response = await axios.post(
-    API_BASE_URL + '/users/register',
-    registerData
+const getAuthTokenFromLocalStorage = () => getUserFromLocalStorage()?.token;
+
+const authHeader = {
+  headers: { Authorization: `Bearer ${getAuthTokenFromLocalStorage()}` },
+};
+
+const apiHandler = async apiFunc => {
+  try {
+    const response = await apiFunc();
+    return response.data;
+  } catch (error) {
+    // the request was made and the server responded with a status code that falls out of the range of 2xx
+    if (error.response) {
+      return error.response.data;
+    }
+    // something happened in setting up the request that triggered an error
+    console.log('Error', error.message);
+    throw new Error('Something went wrong');
+  }
+};
+
+const register = registerData =>
+  apiHandler(() => axios.post(`${USER_API_ENDPOINT}/register`, registerData));
+
+const login = loginData =>
+  apiHandler(() => axios.post(`${USER_API_ENDPOINT}/login`, loginData));
+
+const getUserData = username =>
+  apiHandler(() => axios.get(`${USER_API_ENDPOINT}/${username}`));
+
+const addLink = linkData =>
+  apiHandler(() =>
+    axios.post(`${LINK_API_ENDPOINT}/new`, linkData, authHeader)
   );
-  if (response.status === 200) {
-    return response.data;
-  } else {
-    throw new Error('User registration failed');
-  }
-}
 
-export async function login(loginData) {
-  const response = await axios.post(API_BASE_URL + '/users/login', loginData);
-  if (response.status === 200) {
-    return response.data;
-  } else {
-    throw new Error('User login failed');
-  }
-}
+const updateLink = (linkData, linkId) =>
+  apiHandler(() =>
+    axios.patch(`${LINK_API_ENDPOINT}/${linkId}`, linkData, authHeader)
+  );
 
-export async function getUserData(username) {
-  const response = await axios.get(API_BASE_URL + '/users/' + username, {
-    headers: { Authorization: 'Bearer ' + getAuthTokenFromLocalStorage() },
-  });
-  if (response.status === 200) {
-    return response.data;
-  } else {
-    throw new Error('No user data found');
-  }
-}
+const deleteLink = linkId =>
+  apiHandler(() => axios.delete(`${LINK_API_ENDPOINT}/${linkId}`, authHeader));
 
-const api = { register, login, getUserData };
+const api = { register, login, getUserData, addLink, updateLink, deleteLink };
 
 export default api;
