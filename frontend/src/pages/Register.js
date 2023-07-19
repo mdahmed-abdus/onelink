@@ -11,7 +11,7 @@ function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { register, isLoading, error } = useRegister();
+  const { register, isLoading, error, successMessage } = useRegister();
 
   const handleRegisterSubmit = e => {
     e.preventDefault();
@@ -82,6 +82,9 @@ function Register() {
           </div>
           {error && (
             <p className="mt-4 text-danger text-center">{error.message}</p>
+          )}
+          {successMessage && (
+            <p className="mt-4 text-success text-center">{successMessage}</p>
           )}
         </form>
       </div>

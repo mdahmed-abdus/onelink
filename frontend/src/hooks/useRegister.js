@@ -2,6 +2,7 @@ import { useState } from 'react';
 import api from '../services/api';
 
 export const useRegister = () => {
+  const [successMessage, setSuccessMessage] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
@@ -26,7 +27,7 @@ export const useRegister = () => {
         confirmPassword,
       })
       .then(data => {
-        return data.message;
+        setSuccessMessage(data.message);
       })
       .catch(error => {
         console.log(error);
@@ -37,5 +38,5 @@ export const useRegister = () => {
     setIsLoading(false);
   };
 
-  return { register, isLoading, error };
+  return { register, isLoading, error, successMessage };
 };
