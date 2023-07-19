@@ -2,11 +2,13 @@ import { useState } from 'react';
 import Button from './Button';
 import Link from './Link';
 import TextInput from './TextInput';
+import { useLogin } from '../hooks/useLogin';
 
-function Home({ login }) {
+function Home() {
   // set these empty in prod
   const [emailUsername, setEmailUsername] = useState('jane');
   const [password, setPassword] = useState('Aa@12345678');
+  const { login, isLoading, error } = useLogin();
 
   const handleLoginSubmit = e => {
     e.preventDefault();

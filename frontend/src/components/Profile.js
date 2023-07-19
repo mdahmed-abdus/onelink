@@ -7,6 +7,7 @@ import IconButton from './IconButton';
 import { edit } from '../assets';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import api from '../services/api';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function ConfirmRedirect({ url, setShowRedirect }) {
   return (
@@ -79,8 +80,11 @@ function LinkForm({ link, setLink, formFor, closeAllFormView }) {
   );
 }
 
-function Profile({ isLoggedIn }) {
+function Profile() {
+  const { user: userFromAuthContext } = useAuthContext();
   const { username } = useParams();
+
+  const isLoggedIn = username === userFromAuthContext?.username;
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({

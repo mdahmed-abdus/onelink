@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { menu, close } from '../assets';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function NavLink({ href, text, className }) {
   return (
@@ -9,15 +10,16 @@ function NavLink({ href, text, className }) {
   );
 }
 
-function Navbar({ isLoggedIn, login, logout }) {
+function Navbar() {
   const [toggle, setToggle] = useState(false);
+  const { user } = useAuthContext();
 
   const links = [
     { text: 'Continue as Demo User', url: '#' },
     { text: 'About', url: '/about' },
   ];
 
-  isLoggedIn
+  user
     ? links.push({ text: 'Log out', url: '/logout' })
     : links.push({ text: 'Log In', url: '/' });
 

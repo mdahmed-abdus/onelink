@@ -1,7 +1,15 @@
 import Link from './Link';
+import { useLogout } from '../hooks/useLogout';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useEffect } from 'react';
 
-function Logout({ isLoggedIn, logout }) {
-  logout();
+function Logout() {
+  const { user: isLoggedIn } = useAuthContext();
+  const { logout } = useLogout();
+
+  useEffect(() => {
+    logout();
+  }, []);
 
   return (
     <div className="gridMainContainer mt-24">
