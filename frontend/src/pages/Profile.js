@@ -83,6 +83,8 @@ function LinkForm({
               type="button"
               text="Cancel"
               onClick={closeAllFormView}
+              color="warning"
+              buttonType="outline"
               externalStyle="mt-8 sm:mt-0 sm:ml-8"
             />
             {formFor === 'update' && (
@@ -90,6 +92,8 @@ function LinkForm({
                 type="button"
                 text="Delete"
                 onClick={onClickDelete}
+                color="danger"
+                buttonType="outline"
                 externalStyle="mt-8 sm:mt-0 sm:ml-8"
               />
             )}

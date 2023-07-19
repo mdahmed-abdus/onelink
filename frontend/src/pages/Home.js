@@ -46,7 +46,11 @@ function Home() {
                 externalStyle="mt-5 w-full"
               />
               <Link href="/forgot-password" text="Forgot password?" />
-              <Button text="Login" externalStyle="mt-5 w-full" />
+              <Button
+                text="Login"
+                disabled={isLoading}
+                externalStyle="mt-5 w-full"
+              />
               <Link href="/register" text="Create an account" />
               {error && <p className="mt-4 text-danger">{error.message}</p>}
             </form>
