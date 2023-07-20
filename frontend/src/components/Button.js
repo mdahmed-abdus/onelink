@@ -13,11 +13,11 @@ function Button({
   let classes = `${basicStyles} bg-${color} text-white ${externalStyle}`;
 
   if (buttonType === 'outline') {
-    classes = `${basicStyles} border border-${color} bg-transparent hover:backdrop-brightness-150 text-${color} ${externalStyle}`;
+    classes = `${basicStyles} border border-${color} bg-transparent hover:backdrop-brightness-150 disabled:hover:backdrop-opacity-0 text-${color} ${externalStyle}`;
   }
 
   if (buttonType === 'underline') {
-    classes = `${basicStyles}  px-0 py-0 w-fit text-${color} hover:underline ${externalStyle}`;
+    classes = `${basicStyles} px-0 py-0 w-fit text-${color} hover:underline ${externalStyle}`;
   }
 
   return (
@@ -27,7 +27,7 @@ function Button({
       onClick={onClick}
       disabled={disabled}
     >
-      {disabled ? 'Loading...' : text}
+      {text}
     </button>
   );
 }
