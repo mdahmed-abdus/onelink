@@ -52,7 +52,17 @@ function Home() {
                 externalStyle="mt-5 w-full"
               />
               <Link href="/register" text="Create an account" />
-              {error && <p className="mt-4 text-danger">{error.message}</p>}
+              {error && (
+                <div className="text-center w-full">
+                  <p className="mt-4 text-danger">{error.message}</p>
+                  {error.message.toUpperCase() === 'EMAIL NOT VERIFIED' && (
+                    <Link
+                      href="/email/verify"
+                      text="Resend email verification"
+                    />
+                  )}
+                </div>
+              )}
             </form>
           </div>
         </div>
