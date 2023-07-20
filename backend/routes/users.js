@@ -34,6 +34,8 @@ router.post(
     await user.save();
 
     res.json({ success: true, message: 'User registered' });
+
+    await user.sendConfirmationEmail();
   })
 );
 

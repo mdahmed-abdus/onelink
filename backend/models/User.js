@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { BCRYPT_WORK_FACTOR, DUMMY_HASH } = require('../config/bcryptConfig');
 const { linkSchema } = require('./Link');
+const { sendMail } = require('../services/mailService');
 
 const userSchema = new mongoose.Schema(
   {
@@ -53,6 +54,16 @@ userSchema.pre('save', async function (next) {
   }
   next();
 });
+
+userSchema.methods.sendConfirmationEmail = async function () {
+  const url = 'Account confirmation link.';
+
+  sendMail({
+    to: this.email,
+    subject: 'Email confirmation',
+    text: `Please click on this link to verify your email: ${url}`,
+  });
+};
 
 userSchema.statics.comparePassword = function (plainTextPwd, hashedPwd) {
   // using dummy hash to mitigate timing attack
