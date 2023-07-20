@@ -28,7 +28,7 @@ function EmailVerification() {
       <div className="gridContainer md:w-1/2 m-auto text-center">
         <h1 className="text-4xl">Verify your email</h1>
         <p className="mt-4">
-          Before you continue, check your inbox for email verification link.
+          Please check your inbox and spam for email verification link.
         </p>
         <form className="mt-8 w-full" onSubmit={handleFormSubmit}>
           <p>Did not receive the email?</p>
