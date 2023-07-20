@@ -58,6 +58,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.methods.isVerified = function () {
+  return !!this.verifiedAt;
+};
+
 userSchema.methods.sendVerificationEmail = async function () {
   const token = new Token({
     userId: this._id,
@@ -77,6 +81,17 @@ userSchema.methods.sendVerificationEmail = async function () {
 userSchema.statics.comparePassword = function (plainTextPwd, hashedPwd) {
   // using dummy hash to mitigate timing attack
   return bcrypt.compare(plainTextPwd, hashedPwd || DUMMY_HASH);
+};
+
+userSchema.statics.verifyToken = async function (tokenId) {
+  const token = await Token.findById(tokenId);
+
+  if (token?.hasExpired()) {
+    await token.remove();
+    return false;
+  }
+
+  return token;
 };
 
 const User = mongoose.model('User', userSchema);

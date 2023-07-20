@@ -2,7 +2,7 @@ const express = require('express');
 const { User } = require('../models/User');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
 const { guest } = require('../middleware/authMiddleware');
-const { BadRequest, NotFound } = require('../errors/customErrors');
+const { BadRequest, NotFound, Forbidden } = require('../errors/customErrors');
 const authService = require('../services/authService');
 const { registerSchema, loginSchema } = require('../validation/userValidator');
 const validate = require('../validation/validate');
@@ -63,6 +63,10 @@ router.post(
       throw new BadRequest('Invalid username or email or password');
     }
 
+    if (!user.isVerified()) {
+      throw new Forbidden('Email not verified');
+    }
+
     const token = authService.login(req, res, user);
 
     res.json({ success: true, message: 'User logged in', token: token });
@@ -87,6 +91,27 @@ router.get(
       message: `User has ${user.links.length} link(s)`,
       user,
     });
+  })
+);
+
+router.post(
+  '/email/verify',
+  catchAsyncErr(async (req, res) => {
+    const token = await User.verifyToken(req.query.tokenId);
+    if (!token) {
+      throw new BadRequest('Invalid token');
+    }
+
+    const user = await User.findById(token.userId);
+    if (!user || user?.isVerified()) {
+      throw new BadRequest('Invalid email or already verified');
+    }
+
+    user.verifiedAt = new Date();
+    await user.save();
+    await token.remove();
+
+    res.json({ success: true, message: 'Email verified' });
   })
 );
 
