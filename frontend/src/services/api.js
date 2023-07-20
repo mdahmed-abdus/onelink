@@ -49,14 +49,18 @@ const verifyEmail = tokenId =>
   );
 
 const forgotPassword = email =>
-  apiHandler(() => axios.post(`${USER_API_ENDPOINT}/password/forgot`), {
-    email,
-  });
+  apiHandler(() =>
+    axios.post(`${USER_API_ENDPOINT}/password/forgot`, {
+      email,
+    })
+  );
 
 const resetPassword = (tokenId, password, confirmPassword) =>
-  apiHandler(
-    () => axios.post(`${USER_API_ENDPOINT}/password/reset?tokenId=${tokenId}`),
-    { password, confirmPassword }
+  apiHandler(() =>
+    axios.post(`${USER_API_ENDPOINT}/password/reset?tokenId=${tokenId}`, {
+      password,
+      confirmPassword,
+    })
   );
 
 const addLink = linkData =>
