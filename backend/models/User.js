@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 const { BCRYPT_WORK_FACTOR, DUMMY_HASH } = require('../config/bcryptConfig');
 const { linkSchema } = require('./Link');
 const { sendMail } = require('../services/mailService');
+const { Token } = require('./Token');
+const { APP_URL } = require('../config/appConfig');
+const { EMAIL_VERIFICATION_TIMEOUT } = require('../config/authConfig');
 
 const userSchema = new mongoose.Schema(
   {
@@ -55,12 +58,18 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.methods.sendConfirmationEmail = async function () {
-  const url = 'Account confirmation link.';
+userSchema.methods.sendVerificationEmail = async function () {
+  const token = new Token({
+    userId: this._id,
+    expires: Date.now() + EMAIL_VERIFICATION_TIMEOUT,
+  });
+  await token.save();
+
+  const url = APP_URL + `/users/email/verify?tokenId=${token._id}`;
 
   sendMail({
     to: this.email,
-    subject: 'Email confirmation',
+    subject: 'Email verification required',
     text: `Please click on this link to verify your email: ${url}`,
   });
 };

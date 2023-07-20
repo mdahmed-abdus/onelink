@@ -35,7 +35,7 @@ router.post(
 
     res.json({ success: true, message: 'User registered' });
 
-    await user.sendConfirmationEmail();
+    await user.sendVerificationEmail();
   })
 );
 
