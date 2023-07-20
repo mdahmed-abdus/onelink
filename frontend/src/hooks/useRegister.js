@@ -27,10 +27,12 @@ export const useRegister = () => {
         confirmPassword,
       })
       .then(data => {
+        setError(null);
         setSuccessMessage(data.message);
       })
       .catch(error => {
         console.log(error);
+        setSuccessMessage(null);
         setError(error);
         setIsLoading(false);
       });
