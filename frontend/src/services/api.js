@@ -36,6 +36,13 @@ const login = loginData =>
 const getUserData = username =>
   apiHandler(() => axios.get(`${USER_API_ENDPOINT}/${username}`));
 
+const sendVerificationEmail = email =>
+  apiHandler(() =>
+    axios.post(`${USER_API_ENDPOINT}/email/resend-verification-email`, {
+      email,
+    })
+  );
+
 const addLink = linkData =>
   apiHandler(() =>
     axios.post(`${LINK_API_ENDPOINT}/new`, linkData, authHeader)
@@ -49,6 +56,14 @@ const updateLink = (linkData, linkId) =>
 const deleteLink = linkId =>
   apiHandler(() => axios.delete(`${LINK_API_ENDPOINT}/${linkId}`, authHeader));
 
-const api = { register, login, getUserData, addLink, updateLink, deleteLink };
+const api = {
+  register,
+  login,
+  getUserData,
+  sendVerificationEmail,
+  addLink,
+  updateLink,
+  deleteLink,
+};
 
 export default api;
