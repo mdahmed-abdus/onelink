@@ -115,4 +115,18 @@ router.post(
   })
 );
 
+router.post(
+  '/email/resend-verification-email',
+  catchAsyncErr(async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user || user?.isVerified()) {
+      throw new BadRequest('Invalid email or already verified');
+    }
+
+    await user.sendVerificationEmail();
+
+    res.json({ success: true, message: 'Email sent' });
+  })
+);
+
 module.exports = router;
