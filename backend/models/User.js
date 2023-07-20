@@ -5,7 +5,10 @@ const { linkSchema } = require('./Link');
 const { sendMail } = require('../services/mailService');
 const { Token } = require('./Token');
 const { APP_URL } = require('../config/appConfig');
-const { EMAIL_VERIFICATION_TIMEOUT } = require('../config/authConfig');
+const {
+  EMAIL_VERIFICATION_TIMEOUT,
+  PASSWORD_RESET_TIMEOUT,
+} = require('../config/authConfig');
 
 const userSchema = new mongoose.Schema(
   {
@@ -75,6 +78,22 @@ userSchema.methods.sendVerificationEmail = async function () {
     to: this.email,
     subject: 'Email verification required',
     text: `Please click on this link to verify your email: ${url}`,
+  });
+};
+
+userSchema.methods.sendPasswordResetEmail = async function () {
+  const token = new Token({
+    userId: this._id,
+    expires: Date.now() + PASSWORD_RESET_TIMEOUT,
+  });
+  await token.save();
+
+  const url = APP_URL + `/users/password/reset?tokenId=${token._id}`;
+
+  return sendMail({
+    to: this.email,
+    subject: 'Password reset',
+    text: `Please click on this link to reset your password: ${url}`,
   });
 };
 

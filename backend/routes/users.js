@@ -129,4 +129,39 @@ router.post(
   })
 );
 
+router.post(
+  '/password/forgot',
+  catchAsyncErr(async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user || !user?.isVerified()) {
+      throw new BadRequest('Invalid email');
+    }
+
+    await user.sendPasswordResetEmail();
+
+    res.json({ success: true, message: 'Mail sent' });
+  })
+);
+
+router.post(
+  '/password/reset',
+  catchAsyncErr(async (req, res) => {
+    const token = await User.verifyToken(req.query.tokenId);
+    if (!token) {
+      throw new BadRequest('Invalid token');
+    }
+
+    const user = await User.findById(token.userId);
+    if (!user || !user?.isVerified()) {
+      throw new BadRequest('Invalid email or user not verified');
+    }
+
+    user.password = req.body.password;
+    await user.save();
+    await token.remove();
+
+    res.json({ success: true, message: 'Password changed successfully' });
+  })
+);
+
 module.exports = router;
