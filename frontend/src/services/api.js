@@ -43,6 +43,22 @@ const sendVerificationEmail = email =>
     })
   );
 
+const verifyEmail = tokenId =>
+  apiHandler(() =>
+    axios.post(`${USER_API_ENDPOINT}/email/verify?tokenId=${tokenId}`)
+  );
+
+const forgotPassword = email =>
+  apiHandler(() => axios.post(`${USER_API_ENDPOINT}/password/forgot`), {
+    email,
+  });
+
+const resetPassword = (tokenId, password, confirmPassword) =>
+  apiHandler(
+    () => axios.post(`${USER_API_ENDPOINT}/password/reset?tokenId=${tokenId}`),
+    { password, confirmPassword }
+  );
+
 const addLink = linkData =>
   apiHandler(() =>
     axios.post(`${LINK_API_ENDPOINT}/new`, linkData, authHeader)
@@ -61,6 +77,9 @@ const api = {
   login,
   getUserData,
   sendVerificationEmail,
+  verifyEmail,
+  forgotPassword,
+  resetPassword,
   addLink,
   updateLink,
   deleteLink,
