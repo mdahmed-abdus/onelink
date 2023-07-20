@@ -2,6 +2,7 @@ const express = require('express');
 const { User } = require('../models/User');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
 const { guest } = require('../middleware/authMiddleware');
+const validateTokenId = require('../middleware/validateTokenId');
 const { BadRequest, NotFound, Forbidden } = require('../errors/customErrors');
 const authService = require('../services/authService');
 const { registerSchema, loginSchema } = require('../validation/userValidator');
@@ -96,6 +97,7 @@ router.get(
 
 router.post(
   '/email/verify',
+  validateTokenId,
   catchAsyncErr(async (req, res) => {
     const token = await User.verifyToken(req.query.tokenId);
     if (!token) {
@@ -145,6 +147,7 @@ router.post(
 
 router.post(
   '/password/reset',
+  validateTokenId,
   catchAsyncErr(async (req, res) => {
     const token = await User.verifyToken(req.query.tokenId);
     if (!token) {
