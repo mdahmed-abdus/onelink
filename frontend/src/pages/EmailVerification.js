@@ -3,6 +3,7 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import api from '../services/api';
 import { useLocation } from 'react-router-dom';
+import Link from '../components/Link';
 
 function EmailVerification() {
   const { search } = useLocation();
@@ -47,12 +48,19 @@ function EmailVerification() {
     <div className="gridMainContainer mt-24">
       <div className="gridContainer md:w-1/2 m-auto text-center">
         {tokenId ? (
-          <div>
+          <div className="mt-4">
             {error && (
               <p className="mt-4 text-center text-danger">{error.message}</p>
             )}
             {success && (
-              <p className="mt-4 text-center text-success">{success}</p>
+              <div>
+                <p className="mt-4 text-center text-success">{success}</p>
+                <Link
+                  text="Click here to login"
+                  href="/"
+                  externalStyle="block mt-4"
+                />
+              </div>
             )}
           </div>
         ) : (
