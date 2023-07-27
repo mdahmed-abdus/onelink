@@ -8,9 +8,9 @@ const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem('user'));
 
 const getAuthTokenFromLocalStorage = () => getUserFromLocalStorage()?.token;
 
-const authHeader = {
+const getAuthHeader = () => ({
   headers: { Authorization: `Bearer ${getAuthTokenFromLocalStorage()}` },
-};
+});
 
 const apiHandler = async apiFunc => {
   try {
@@ -65,16 +65,18 @@ const resetPassword = (tokenId, password, confirmPassword) =>
 
 const addLink = linkData =>
   apiHandler(() =>
-    axios.post(`${LINK_API_ENDPOINT}/new`, linkData, authHeader)
+    axios.post(`${LINK_API_ENDPOINT}/new`, linkData, getAuthHeader())
   );
 
 const updateLink = (linkData, linkId) =>
   apiHandler(() =>
-    axios.patch(`${LINK_API_ENDPOINT}/${linkId}`, linkData, authHeader)
+    axios.patch(`${LINK_API_ENDPOINT}/${linkId}`, linkData, getAuthHeader())
   );
 
 const deleteLink = linkId =>
-  apiHandler(() => axios.delete(`${LINK_API_ENDPOINT}/${linkId}`, authHeader));
+  apiHandler(() =>
+    axios.delete(`${LINK_API_ENDPOINT}/${linkId}`, getAuthHeader())
+  );
 
 const api = {
   register,
