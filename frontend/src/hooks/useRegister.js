@@ -4,7 +4,6 @@ import api from '../services/api';
 export const useRegister = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
 
   const register = (
     firstName,
@@ -14,9 +13,6 @@ export const useRegister = () => {
     password,
     confirmPassword
   ) => {
-    setIsLoading(true);
-    setError(null);
-
     api
       .register({
         firstName,
@@ -34,11 +30,8 @@ export const useRegister = () => {
         console.log(error);
         setSuccessMessage(null);
         setError(error);
-        setIsLoading(false);
       });
-
-    setIsLoading(false);
   };
 
-  return { register, isLoading, error, successMessage };
+  return { register, error, successMessage };
 };

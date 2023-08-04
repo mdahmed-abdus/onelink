@@ -43,17 +43,19 @@ function LinkForm({
   };
 
   const onClickDelete = () => {
-    api
-      .deleteLink(link._id)
-      .then(data => {
-        setError(null);
-        closeAllFormView();
-        loadUserDetails();
-      })
-      .catch(error => {
-        console.log(error);
-        setError(error);
-      });
+    if (window.confirm('Are you sure you want to delete?')) {
+      api
+        .deleteLink(link._id)
+        .then(data => {
+          setError(null);
+          closeAllFormView();
+          loadUserDetails();
+        })
+        .catch(error => {
+          console.log(error);
+          setError(error);
+        });
+    }
   };
 
   return (

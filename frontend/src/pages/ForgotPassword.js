@@ -2,24 +2,26 @@ import { useState } from 'react';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import api from '../services/api';
+import StatusMessage from '../components/StatusMessage';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [statusMessage, setStatusMessage] = useState({
+    message: '',
+    style: '',
+  });
 
   const handleFormSubmit = e => {
     e.preventDefault();
+    setStatusMessage({ message: 'Loading...', style: 'info' });
     api
       .forgotPassword(email)
       .then(({ message }) => {
-        setError('');
-        setSuccess(message);
+        setStatusMessage({ message, style: 'success' });
       })
       .catch(error => {
         console.log(error);
-        setSuccess('');
-        setError(error);
+        setStatusMessage({ message: error.message, style: 'error' });
       });
   };
 
@@ -49,12 +51,7 @@ function ForgotPassword() {
             buttonType="outline"
             externalStyle="mt-4 w-full"
           />
-          {error && (
-            <p className="mt-4 text-center text-danger">{error.message}</p>
-          )}
-          {success && (
-            <p className="mt-4 text-center text-success">{success}</p>
-          )}
+          <StatusMessage status={statusMessage} />
         </form>
       </div>
     </div>

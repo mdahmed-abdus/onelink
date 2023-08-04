@@ -11,7 +11,7 @@ function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { register, isLoading, error, successMessage } = useRegister();
+  const { register, error, successMessage } = useRegister();
 
   const handleRegisterSubmit = e => {
     e.preventDefault();
