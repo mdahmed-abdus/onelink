@@ -136,6 +136,7 @@ function Profile() {
 
   useEffect(() => {
     loadUserDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [showRedirect, setShowRedirect] = useState(false);

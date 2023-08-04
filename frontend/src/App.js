@@ -30,9 +30,7 @@ function App() {
         <Route exact path="/password/forgot" component={ForgotPassword} />
         <Route exact path="/password/reset" component={ResetPassword} />
         <Route exact path="/email/verify" component={EmailVerification} />
-        <Route exact path="/:username">
-          <Profile />
-        </Route>
+        <Route exact path="/:username" component={Profile} />
       </Switch>
       <Footer />
     </BrowserRouter>

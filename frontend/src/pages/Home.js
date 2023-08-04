@@ -6,8 +6,8 @@ import { useLogin } from '../hooks/useLogin';
 
 function Home() {
   // set these empty in prod
-  const [emailUsername, setEmailUsername] = useState('jane');
-  const [password, setPassword] = useState('Aa@12345678');
+  const [emailUsername, setEmailUsername] = useState('');
+  const [password, setPassword] = useState('');
   const { login, isLoading, error } = useLogin();
 
   const handleLoginSubmit = e => {
