@@ -113,6 +113,7 @@ function Profile() {
 
   const isLoggedIn = username === userFromAuthContext?.username;
 
+  const [userFound, setUserFound] = useState(true);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({
     _id: '',
@@ -131,6 +132,8 @@ function Profile() {
       })
       .catch(error => {
         console.log(error);
+        setUserFound(false);
+        setLoading(false);
       });
   };
 
@@ -165,7 +168,23 @@ function Profile() {
   return (
     <div className="gridMainContainer pb-[100px] mt-24">
       <div className="gridContainer text-center">
-        {loading && <BlurredBgCenteredItems items={<p>Loading...</p>} />}
+        {loading && (
+          <BlurredBgCenteredItems
+            items={<p className="italic opacity-50">Loading...</p>}
+          />
+        )}
+        {!userFound && (
+          <BlurredBgCenteredItems
+            items={
+              <div>
+                <p className="mb-4">
+                  User with username "{username}" was not found.
+                </p>
+                <Link text="Home" href="/" />
+              </div>
+            }
+          />
+        )}
         {showRedirect && (
           <BlurredBgCenteredItems
             items={
