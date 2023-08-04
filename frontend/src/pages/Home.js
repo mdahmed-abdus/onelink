@@ -45,7 +45,7 @@ function Home() {
                 placeHolder="Password"
                 externalStyle="mt-5 w-full"
               />
-              <Link href="/forgot-password" text="Forgot password?" />
+              <Link href="/password/forgot" text="Forgot password?" />
               <Button
                 text="Login"
                 disabled={isLoading}

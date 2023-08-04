@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import ComingSoon from './pages/ComingSoon';
 import About from './pages/About';
 import EmailVerification from './pages/EmailVerification';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const { user } = useAuthContext();
@@ -26,7 +27,8 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/about" component={About} />
         <Route exact path="/coming-soon" component={ComingSoon} />
-        <Route exact path="/forgot-password" component={ForgotPassword} />
+        <Route exact path="/password/forgot" component={ForgotPassword} />
+        <Route exact path="/password/reset" component={ResetPassword} />
         <Route exact path="/email/verify" component={EmailVerification} />
         <Route exact path="/:username">
           <Profile />
