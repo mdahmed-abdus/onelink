@@ -5,7 +5,13 @@ const { guest } = require('../middleware/authMiddleware');
 const validateTokenId = require('../middleware/validateTokenId');
 const { BadRequest, NotFound, Forbidden } = require('../errors/customErrors');
 const authService = require('../services/authService');
-const { registerSchema, loginSchema } = require('../validation/userValidator');
+const {
+  registerSchema,
+  loginSchema,
+  resendEmailVerificationLinkSchema,
+  passwordForgotSchema,
+  passwordResetSchema,
+} = require('../validation/userValidator');
 const validate = require('../validation/validate');
 
 const router = express.Router();
@@ -120,6 +126,11 @@ router.post(
 router.post(
   '/email/resend-verification-email',
   catchAsyncErr(async (req, res) => {
+    const errMessage = validate(resendEmailVerificationLinkSchema, req.body);
+    if (errMessage) {
+      throw new BadRequest(errMessage);
+    }
+
     const user = await User.findOne({ email: req.body.email });
     if (!user || user?.isVerified()) {
       throw new BadRequest('Invalid email or already verified');
@@ -134,6 +145,11 @@ router.post(
 router.post(
   '/password/forgot',
   catchAsyncErr(async (req, res) => {
+    const errMessage = validate(passwordForgotSchema, req.body);
+    if (errMessage) {
+      throw new BadRequest(errMessage);
+    }
+
     const user = await User.findOne({ email: req.body.email });
     if (!user || !user?.isVerified()) {
       throw new BadRequest('Invalid email');
@@ -149,6 +165,11 @@ router.post(
   '/password/reset',
   validateTokenId,
   catchAsyncErr(async (req, res) => {
+    const errMessage = validate(passwordResetSchema, req.body);
+    if (errMessage) {
+      throw new BadRequest(errMessage);
+    }
+
     const token = await User.verifyToken(req.query.tokenId);
     if (!token) {
       throw new BadRequest('Invalid token');

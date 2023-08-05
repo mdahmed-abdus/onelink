@@ -39,4 +39,22 @@ const loginSchema = Joi.object({ email, username, password }).or(
   'username'
 );
 
-module.exports = { registerSchema, loginSchema };
+const resendEmailVerificationLinkSchema = Joi.object({ email }).options({
+  presence: 'required',
+});
+
+const passwordForgotSchema = Joi.object({ email }).options({
+  presence: 'required',
+});
+
+const passwordResetSchema = Joi.object({ password, confirmPassword }).options({
+  presence: 'required',
+});
+
+module.exports = {
+  registerSchema,
+  loginSchema,
+  resendEmailVerificationLinkSchema,
+  passwordForgotSchema,
+  passwordResetSchema,
+};
