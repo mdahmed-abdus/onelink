@@ -159,6 +159,10 @@ router.post(
       throw new BadRequest('Invalid email or user not verified');
     }
 
+    if (req.body.password !== req.body.confirmPassword) {
+      throw new BadRequest('Passwords do not match');
+    }
+
     user.password = req.body.password;
     await user.save();
     await token.remove();

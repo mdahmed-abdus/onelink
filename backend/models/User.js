@@ -72,7 +72,7 @@ userSchema.methods.sendVerificationEmail = async function () {
   });
   await token.save();
 
-  const url = APP_URL + `/users/email/verify?tokenId=${token._id}`;
+  const url = APP_URL + `/email/verify?tokenId=${token._id}`;
 
   sendMail({
     to: this.email,
@@ -88,7 +88,7 @@ userSchema.methods.sendPasswordResetEmail = async function () {
   });
   await token.save();
 
-  const url = APP_URL + `/users/password/reset?tokenId=${token._id}`;
+  const url = APP_URL + `/password/reset?tokenId=${token._id}`;
 
   return sendMail({
     to: this.email,

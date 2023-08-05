@@ -4,7 +4,9 @@ const IN_PROD = NODE_ENV === 'production';
 
 const APP_PROTOCOL = IN_PROD ? 'https' : 'http';
 
-const APP_URL = `${APP_PROTOCOL}://${APP_HOSTNAME}:${APP_PORT}`;
+const APP_URL = `${APP_PROTOCOL}://${APP_HOSTNAME}:${
+  IN_PROD ? APP_PORT : 3000
+}`;
 
 module.exports = {
   NODE_ENV,
