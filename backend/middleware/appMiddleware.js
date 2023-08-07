@@ -6,7 +6,7 @@ const { IN_PROD } = require('../config/appConfig');
 
 module.exports = app => {
   // body parser
-  app.use(cors());
+  app.use(cors({ origin: 'https://onelink.onrender.com' }));
   app.use(express.json());
   app.use(cookieParser());
 
