@@ -4,8 +4,12 @@
   "description": "Linktree clone.",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/index",
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "backend-install": "cd backend && npm install",
+    "backend-start": "cd backend && npm run start",
+    "frontend-install": "cd frontend && npm install",
+    "frontend-start": "cd frontend && npm run start",
+    "frontend-build": "cd frontend && npm run build"
   },
   "author": "Mohd Ahmed Abdus",
   "license": "MIT",
