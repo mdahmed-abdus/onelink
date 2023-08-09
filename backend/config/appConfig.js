@@ -4,6 +4,7 @@ let {
   PORT: APP_PORT,
   RENDER_EXTERNAL_URL,
   RENDER_EXTERNAL_HOSTNAME,
+  FRONTEND_URL,
 } = process.env;
 
 const IN_PROD = NODE_ENV === 'production';
@@ -23,4 +24,5 @@ module.exports = {
   APP_PORT,
   IN_PROD,
   APP_URL,
+  FRONTEND_URL,
 };
