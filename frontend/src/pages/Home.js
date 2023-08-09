@@ -1,18 +1,50 @@
 import { useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import Button from '../components/Button';
 import Link from '../components/Link';
 import TextInput from '../components/TextInput';
-import { useLogin } from '../hooks/useLogin';
+import api from '../services/api';
+import { useAuthContext } from '../hooks/useAuthContext';
+import StatusMessage from '../components/StatusMessage';
 
 function Home() {
-  // set these empty in prod
+  const [loading, setLoading] = useState(false);
   const [emailUsername, setEmailUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { login, isLoading, error } = useLogin();
+  const [error, setError] = useState(null);
+  const [statusMessage, setStatusMessage] = useState({
+    message: '',
+    style: '',
+  });
+
+  const { dispatch } = useAuthContext();
 
   const handleLoginSubmit = e => {
     e.preventDefault();
-    login(emailUsername, password);
+    setLoading(true);
+    setStatusMessage({ message: 'Loading...', style: 'info' });
+
+    const EMAIL_REGEX = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+    const emailUsernameIsEmail = EMAIL_REGEX.test(emailUsername);
+    const key = emailUsernameIsEmail ? 'email' : 'username';
+
+    api
+      .login({ [key]: emailUsername, password })
+      .then(({ token }) => {
+        const { username } = jwt_decode(token);
+
+        localStorage.setItem('user', JSON.stringify({ token, username }));
+
+        dispatch({ type: 'LOGIN', payload: { token, username } });
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setError(error);
+        setStatusMessage({ message: error.message, style: 'error' });
+        setLoading(false);
+      });
   };
 
   return (
@@ -48,13 +80,13 @@ function Home() {
               <Link href="/password/forgot" text="Forgot password?" />
               <Button
                 text="Login"
-                disabled={isLoading}
+                disabled={loading}
                 externalStyle="mt-5 w-full"
               />
               <Link href="/register" text="Create an account" />
+              <StatusMessage status={statusMessage} />
               {error && (
                 <div className="text-center w-full">
-                  <p className="mt-4 text-danger">{error.message}</p>
                   {error.message.toUpperCase() === 'EMAIL NOT VERIFIED' && (
                     <Link
                       href="/email/verify"
