@@ -1,21 +1,52 @@
+import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
 import Link from '../components/Link';
 import TextInput from '../components/TextInput';
-import { useRegister } from '../hooks/useRegister';
 import { useState } from 'react';
+import api from '../services/api';
+import StatusMessage from '../components/StatusMessage';
 
 function Register() {
+  const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { register, error, successMessage } = useRegister();
+  const [statusMessage, setStatusMessage] = useState({
+    message: '',
+    style: '',
+  });
+
+  const history = useHistory();
 
   const handleRegisterSubmit = e => {
     e.preventDefault();
-    register(firstName, lastName, email, username, password, confirmPassword);
+    setLoading(true);
+    setStatusMessage({ message: 'Loading...', style: 'info' });
+
+    api
+      .register({
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+        confirmPassword,
+      })
+      .then(({ message }) => {
+        setStatusMessage({ message, style: 'success' });
+        setTimeout(() => {
+          setLoading(false);
+          history.push('/email/verify');
+        }, 1000);
+      })
+      .catch(error => {
+        console.log(error);
+        setStatusMessage({ message: error.message, style: 'error' });
+        setLoading(false);
+      });
   };
 
   return (
@@ -78,14 +109,9 @@ function Register() {
             </div>
           </div>
           <div className="mt-5 flex justify-center">
-            <Button text="Register" />
+            <Button text="Register" disabled={loading} />
           </div>
-          {error && (
-            <p className="mt-4 text-danger text-center">{error.message}</p>
-          )}
-          {successMessage && (
-            <p className="mt-4 text-success text-center">{successMessage}</p>
-          )}
+          <StatusMessage status={statusMessage} />
         </form>
       </div>
     </div>
