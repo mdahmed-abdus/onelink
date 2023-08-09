@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://onelink-backend.onrender.com';
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const USER_API_ENDPOINT = API_BASE_URL + '/users';
 const LINK_API_ENDPOINT = API_BASE_URL + '/links';
 
