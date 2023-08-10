@@ -20,7 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
-    "nanoid": "^4.0.2",
+    "nanoid": "^3.3.6",
     "nodemailer": "^6.9.4",
     "resend": "^0.17.2",
     "unique-names-generator": "^4.7.1"
