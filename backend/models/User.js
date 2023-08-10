@@ -48,6 +48,11 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       maxlength: 1024,
     },
+    accountType: {
+      type: String,
+      required: true,
+      default: 'user',
+    },
     verifiedAt: Date,
     links: [linkSchema],
   },
