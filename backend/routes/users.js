@@ -192,4 +192,19 @@ router.post(
   })
 );
 
+router.post('/demo/register', guest, async (req, res) => {
+  const { email } = req.body;
+
+  const userDetails = User.generateDemoUserDetails();
+  const user = new User(userDetails);
+  await user.save();
+
+  res.json({
+    success: true,
+    message: 'Please check your email for credentials',
+  });
+
+  await User.sendDemoUserDetails(email, userDetails);
+});
+
 module.exports = router;

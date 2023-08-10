@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { BCRYPT_WORK_FACTOR, DUMMY_HASH } = require('../config/bcryptConfig');
 const { linkSchema } = require('./Link');
-const { sendMail } = require('../services/mailService');
+const {
+  sendMail,
+  demoUserCredentialsTemplate,
+} = require('../services/mailService');
+const randomGenerator = require('../services/randomGenerator');
 const { Token } = require('./Token');
 const { FRONTEND_URL } = require('../config/appConfig');
 const {
@@ -116,6 +120,35 @@ userSchema.statics.verifyToken = async function (tokenId) {
   }
 
   return token;
+};
+
+userSchema.statics.generateDemoUserDetails = function () {
+  const firstName = randomGenerator.name();
+  const lastName = randomGenerator.name();
+  const username = randomGenerator.id();
+  const email = `${firstName}.${lastName}@domain.com`.toLowerCase();
+  const password = randomGenerator.id(5) + '1@!' + randomGenerator.id(5);
+
+  return {
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    verifiedAt: new Date(),
+    accountType: 'demo',
+  };
+};
+
+userSchema.statics.sendDemoUserDetails = async function (
+  requesterEmail,
+  demoUser
+) {
+  return sendMail({
+    to: requesterEmail,
+    subject: 'Demo user credentials for Onelink.',
+    text: demoUserCredentialsTemplate(demoUser),
+  });
 };
 
 const User = mongoose.model('User', userSchema);
