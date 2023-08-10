@@ -51,10 +51,15 @@ const passwordResetSchema = Joi.object({ password, confirmPassword }).options({
   presence: 'required',
 });
 
+const demoUserRegistrationSchema = Joi.object({ email }).options({
+  presence: 'required',
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
   resendEmailVerificationLinkSchema,
   passwordForgotSchema,
   passwordResetSchema,
+  demoUserRegistrationSchema,
 };

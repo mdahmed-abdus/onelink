@@ -11,6 +11,7 @@ const {
   resendEmailVerificationLinkSchema,
   passwordForgotSchema,
   passwordResetSchema,
+  demoUserRegistrationSchema,
 } = require('../validation/userValidator');
 const validate = require('../validation/validate');
 
@@ -193,6 +194,11 @@ router.post(
 );
 
 router.post('/demo/register', guest, async (req, res) => {
+  const errMessage = validate(demoUserRegistrationSchema, req.body);
+  if (errMessage) {
+    throw new BadRequest(errMessage);
+  }
+
   const { email } = req.body;
 
   const userDetails = User.generateDemoUserDetails();
