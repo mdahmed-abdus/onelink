@@ -13,6 +13,7 @@ const {
   EMAIL_VERIFICATION_TIMEOUT,
   PASSWORD_RESET_TIMEOUT,
 } = require('../config/authConfig');
+const { Forbidden } = require('../errors/customErrors');
 
 const userSchema = new mongoose.Schema(
   {
@@ -75,6 +76,10 @@ userSchema.methods.isVerified = function () {
 };
 
 userSchema.methods.sendVerificationEmail = async function () {
+  if (this.accountType === 'demo') {
+    throw new Forbidden('Email verification not allowed for demo users');
+  }
+
   const token = new Token({
     userId: this._id,
     expires: Date.now() + EMAIL_VERIFICATION_TIMEOUT,
@@ -91,6 +96,10 @@ userSchema.methods.sendVerificationEmail = async function () {
 };
 
 userSchema.methods.sendPasswordResetEmail = async function () {
+  if (this.accountType === 'demo') {
+    throw new Forbidden('Password reset not allowed for demo users');
+  }
+
   const token = new Token({
     userId: this._id,
     expires: Date.now() + PASSWORD_RESET_TIMEOUT,
