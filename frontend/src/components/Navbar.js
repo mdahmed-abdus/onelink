@@ -15,7 +15,7 @@ function Navbar() {
   const { user } = useAuthContext();
 
   const links = [
-    // { text: 'Continue as Demo User', url: '/coming-soon' },
+    { text: 'Continue as Demo User', url: '/demo/request' },
     { text: 'About', url: '/about' },
   ];
 

@@ -50,10 +50,11 @@ const verifyEmail = tokenId =>
 
 const forgotPassword = email =>
   apiHandler(() =>
-    axios.post(`${USER_API_ENDPOINT}/password/forgot`, {
-      email,
-    })
+    axios.post(`${USER_API_ENDPOINT}/password/forgot`, { email })
   );
+
+const requestDemoUser = email =>
+  apiHandler(() => axios.post(`${USER_API_ENDPOINT}/demo/register`, { email }));
 
 const resetPassword = (tokenId, password, confirmPassword) =>
   apiHandler(() =>
@@ -89,6 +90,7 @@ const api = {
   addLink,
   updateLink,
   deleteLink,
+  requestDemoUser,
 };
 
 export default api;

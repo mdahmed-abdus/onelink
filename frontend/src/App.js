@@ -13,6 +13,7 @@ import About from './pages/About';
 import EmailVerification from './pages/EmailVerification';
 import ResetPassword from './pages/ResetPassword';
 import NotFound from './pages/NotFound';
+import RequestDemoUser from './pages/RequestDemoUser';
 
 function App() {
   const { user } = useAuthContext();
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/about" component={About} />
+        <Route exact path="/demo/request" component={RequestDemoUser} />
         <Route exact path="/coming-soon" component={ComingSoon} />
         <Route exact path="/password/forgot" component={ForgotPassword} />
         <Route exact path="/password/reset" component={ResetPassword} />
