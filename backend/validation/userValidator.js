@@ -9,7 +9,7 @@ const email = Joi.string().trim().email().min(8).max(254);
 const username = Joi.string()
   .trim()
   .min(3)
-  .max(20)
+  .max(254)
   .regex(/^[a-zA-Z0-9_.]{3,20}$/)
   .message(
     'Only alphabets, numbers, underscores and dot allowed in "username"'
