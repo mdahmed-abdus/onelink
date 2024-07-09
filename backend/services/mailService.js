@@ -1,11 +1,6 @@
 const nodemailer = require('nodemailer');
-const { Resend } = require('resend');
-const {
-  SMTP_OPTIONS,
-  FROM,
-  RESEND_API_KEY,
-  RESEND_FROM,
-} = require('../config/mailConfig');
+const brevo = require('@getbrevo/brevo');
+const { SMTP_OPTIONS, FROM, BREVO_API_KEY } = require('../config/mailConfig');
 const { IN_PROD } = require('../config/appConfig');
 
 // smtp
@@ -14,14 +9,31 @@ const transporter = nodemailer.createTransport(SMTP_OPTIONS);
 const smtpSendMail = options =>
   transporter.sendMail({ ...options, from: FROM });
 
-// resend
-const resend = new Resend(RESEND_API_KEY);
+// brevo
+const apiInstance = new brevo.TransactionalEmailsApi();
+const apiKey = apiInstance.authentications['apiKey'];
+apiKey.apiKey = BREVO_API_KEY;
 
-const resendSendMail = options =>
-  resend.emails.send({ ...options, from: RESEND_FROM });
+const sendSmtpEmail = new brevo.SendSmtpEmail();
 
-// use smtp for development and resend for production
-const sendMail = IN_PROD ? resendSendMail : smtpSendMail;
+const brevoSendMail = ({ to, subject, text }) => {
+  sendSmtpEmail.subject = subject;
+  sendSmtpEmail.textContent = text;
+  sendSmtpEmail.to = [{ email: to, name: '-' }];
+  sendSmtpEmail.sender = {
+    name: 'Onelink',
+    email: 'mdahmed.domain@gmail.com',
+  };
+  sendSmtpEmail.replyTo = {
+    name: 'MD Ahmed',
+    email: 'mdahmed.domain@gmail.com',
+  };
+
+  return apiInstance.sendTransacEmail(sendSmtpEmail);
+};
+
+// use brevo for production and smtp for development
+const sendMail = IN_PROD ? brevoSendMail : smtpSendMail;
 
 // templates
 const demoUserCredentialsTemplate = demoUser => `

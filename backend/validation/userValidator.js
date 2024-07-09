@@ -5,14 +5,13 @@ const name = Joi.string().trim().min(3).max(128);
 
 const email = Joi.string().trim().email().min(8).max(254);
 
-// TODO: improve regex
 const username = Joi.string()
   .trim()
   .min(3)
-  .max(254)
-  .regex(/^[a-zA-Z0-9_.]{3,20}$/)
+  .max(20)
+  .regex(/^[a-zA-Z][a-zA-Z0-9_-]{3,22}$/)
   .message(
-    'Only alphabets, numbers, underscores and dot allowed in "username"'
+    '"username" must contain only alphabets, numbers, underscores (_) and hyphen (-) and begins with alphabet'
   );
 
 const password = Joi.string()
