@@ -1,4 +1,4 @@
-import { mail, linkedin, github, website, twitter } from '../assets';
+import { mail, linkedin, github, website } from '../assets';
 import { links, mailTo } from '../constants';
 import Link from '../components/Link';
 
@@ -8,7 +8,6 @@ function About() {
     { icon: linkedin, name: 'linkedin', url: links.linkedin, target: '_blank' },
     { icon: github, name: 'github', url: links.github, target: '_blank' },
     { icon: website, name: 'website', url: links.website },
-    { icon: twitter, name: 'twitter', url: links.twitter, target: '_blank' },
   ];
 
   return (
