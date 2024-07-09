@@ -193,24 +193,28 @@ router.post(
   })
 );
 
-router.post('/demo/register', guest, async (req, res) => {
-  const errMessage = validate(demoUserRegistrationSchema, req.body);
-  if (errMessage) {
-    throw new BadRequest(errMessage);
-  }
+router.post(
+  '/demo/register',
+  guest,
+  catchAsyncErr(async (req, res) => {
+    const errMessage = validate(demoUserRegistrationSchema, req.body);
+    if (errMessage) {
+      throw new BadRequest(errMessage);
+    }
 
-  const { email } = req.body;
+    const { email } = req.body;
 
-  const userDetails = User.generateDemoUserDetails();
-  const user = new User(userDetails);
-  await user.save();
+    const userDetails = User.generateDemoUserDetails();
+    const user = new User(userDetails);
+    await user.save();
 
-  res.json({
-    success: true,
-    message: 'Please check your email for credentials',
-  });
+    res.json({
+      success: true,
+      message: 'Please check your email for credentials',
+    });
 
-  await User.sendDemoUserDetails(email, userDetails);
-});
+    await User.sendDemoUserDetails(email, userDetails);
+  })
+);
 
 module.exports = router;
