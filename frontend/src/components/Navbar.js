@@ -14,14 +14,16 @@ function Navbar() {
   const [toggle, setToggle] = useState(false);
   const { user } = useAuthContext();
 
-  const links = [
-    { text: 'Continue as Demo User', url: '/demo/request' },
-    { text: 'About', url: '/about' },
-  ];
+  const links = [{ text: 'About', url: '/about' }];
 
-  user
-    ? links.push({ text: 'Log out', url: '/logout' })
-    : links.push({ text: 'Log In', url: '/' });
+  if (user) {
+    links.push({ text: 'Log out', url: '/logout' });
+  } else {
+    links.push(
+      { text: 'Continue as Demo User', url: '/demo/request' },
+      { text: 'Log In', url: '/' }
+    );
+  }
 
   return (
     <nav className="fixed top-0 w-full z-20 bg-white">
