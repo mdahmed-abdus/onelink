@@ -53,7 +53,7 @@ router.post(
   catchAsyncErr(async (req, res) => {
     const errMessage = validate(loginSchema, req.body);
     if (errMessage) {
-      throw new BadRequest(errMessage);
+      throw new BadRequest('Invalid username or password');
     }
 
     const { username, email, password } = req.body;
