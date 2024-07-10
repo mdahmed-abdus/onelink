@@ -36,8 +36,8 @@ function ResetPassword() {
     <div className="gridMainContainer mt-24">
       <div className="gridContainer md:w-1/2 m-auto text-center">
         <form className="mt-8 w-full" onSubmit={handleFormSubmit}>
-          <p>Did not receive the email?</p>
-          <p>Enter your email and we will send it again.</p>
+          <h1 className="text-4xl">Reset password</h1>
+          <p className="mt-4">Enter your new password.</p>
           <TextInput
             type="password"
             name="password"
