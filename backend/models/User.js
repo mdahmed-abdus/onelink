@@ -5,6 +5,8 @@ const { linkSchema } = require('./Link');
 const {
   sendMail,
   demoUserCredentialsTemplate,
+  emailVerificationTemplate,
+  passwordResetTemplate,
 } = require('../services/mailService');
 const randomGenerator = require('../services/randomGenerator');
 const { Token } = require('./Token');
@@ -91,7 +93,7 @@ userSchema.methods.sendVerificationEmail = async function () {
   sendMail({
     to: this.email,
     subject: 'Email verification required',
-    text: `Please click on this link to verify your email: ${url}`,
+    text: emailVerificationTemplate(url),
   });
 };
 
@@ -111,7 +113,7 @@ userSchema.methods.sendPasswordResetEmail = async function () {
   return sendMail({
     to: this.email,
     subject: 'Password reset',
-    text: `Please click on this link to reset your password: ${url}`,
+    text: passwordResetTemplate(url),
   });
 };
 

@@ -45,9 +45,23 @@ Email - ${demoUser.email}
 Username - ${demoUser.username}
 Password - ${demoUser.password}
     
-Note that the demo account and data associated will be deleted after 24 hours.
-    
-Please feel free to reach out on Twitter (now X) or email if you have any questions.
+Please note that the demo account and data associated will be deleted after 24 hours.
 `;
 
-module.exports = { smtpSendMail, sendMail, demoUserCredentialsTemplate };
+const emailVerificationTemplate = url => `
+Please click on the link to verify your email.
+${url}
+`;
+
+const passwordResetTemplate = url => `
+Please click on the link to reset your password.
+${url}
+`;
+
+module.exports = {
+  smtpSendMail,
+  sendMail,
+  demoUserCredentialsTemplate,
+  emailVerificationTemplate,
+  passwordResetTemplate,
+};
