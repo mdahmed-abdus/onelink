@@ -14,6 +14,7 @@ import EmailVerification from './pages/EmailVerification';
 import ResetPassword from './pages/ResetPassword';
 import NotFound from './pages/NotFound';
 import RequestDemoUser from './pages/RequestDemoUser';
+import WelcomeCookie from './components/WelcomeCookie';
 
 function App() {
   const { user } = useAuthContext();
@@ -21,6 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <WelcomeCookie />
       <Switch>
         <Route exact path="/">
           {user ? <Redirect to={`/${user.username}`} /> : <Home />}
